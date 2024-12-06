@@ -1,9 +1,7 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex-1 w-full flex items-center justify-center text-3xl">
+    <div className="flex w-full flex-1 items-center justify-center bg-blue-400 text-3xl">
       리뷰가챠!
     </div>
-  );
+  )
 }

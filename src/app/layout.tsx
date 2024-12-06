@@ -1,26 +1,28 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { DEFAULT_URL } from "@/constatns";
-import { pretendard } from "./fonts";
+import './globals.css'
+import { DEFAULT_URL } from '@/constatns'
+
+import { pretendard } from './fonts'
+
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   metadataBase: new URL(DEFAULT_URL),
-  title: "REVIEW GACHA",
-  description: "리뷰가챠로 리뷰를 더 즐겁게!"
-};
+  title: 'REVIEW GACHA',
+  description: '리뷰가챠로 리뷰를 더 즐겁게!',
+}
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
-        <main className="min-h-screen flex flex-col items-center">
+        <main className="flex min-h-screen flex-col items-center">
           {children}
         </main>
       </body>
     </html>
-  );
+  )
 }
