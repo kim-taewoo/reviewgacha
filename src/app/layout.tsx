@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
-        <main className="flex min-h-screen flex-col items-center">
+        <main className="flex min-h-dvh flex-col items-center">
           {children}
         </main>
       </body>
