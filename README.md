@@ -7,5 +7,6 @@
   - Typescript
   - Tailwindcss
   - ESLint
+  - Shadcn
 - nodejs v22
   - [nvm](https://github.com/nvm-sh/nvm) 을 사용해 버전 맞춤 권장
