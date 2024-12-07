@@ -5,19 +5,25 @@ import { useWindowSize } from 'usehooks-ts'
 
 import { cn } from '@/lib/utils'
 
+import { GachaCard } from './components/gacha-card'
+
 const GachaPage = () => {
   const { width, height } = useWindowSize()
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<string | null>(null)
+  const [flippedIndexes, setFlippedIndexes] = useState<number[]>([])
 
   const onClickGacha = () => {
     setIsLoading(true)
     setResult(null)
+    setFlippedIndexes([])
 
     // 3초 후 결과 표시
     setTimeout(() => {
-      const randomResult = cards[Math.floor(Math.random() * cards.length)] // 랜덤 카드 선택
+      const randomIndex = Math.floor(Math.random() * cards.length)
+      const randomResult = cards[randomIndex]
       setResult(randomResult)
+      setFlippedIndexes([randomIndex])
       setIsLoading(false)
     }, 3000)
   }
@@ -28,20 +34,29 @@ const GachaPage = () => {
       <header className="text-lg font-semibold">가챠권 페이지</header>
 
       {/* 카드 목록 */}
-      <div className={`flex space-x-6 bg-blue-400 ${isLoading ? 'animate-pulse' : ''}`}>
+      <div className={cn(
+        'flex flex-wrap justify-center gap-4 bg-gray-100 p-8',
+        isLoading && 'pointer-events-none'
+      )}
+      >
         {cards.map((card, index) => (
-          <div
+          <GachaCard
             key={index}
-            className={cn('flex h-44 w-40 items-center justify-center bg-blue-800 text-center text-white', isLoading ? 'opacity-50' : '')}
-          >
-            {isLoading ? '로딩 중...' : card}
-          </div>
+            frontContent={card}
+            backContent="뒷면"
+            isLoading={isLoading}
+            isFlipped={flippedIndexes.includes(index)}
+          />
         ))}
       </div>
 
       {/* 결과 표시 */}
       {result && (
-        <div className="fixed left-1/2  top-28 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md bg-white px-4 py-2 text-center text-black shadow-lg">
+        <div className={cn(
+          'fixed left-1/2 top-28 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md bg-white px-4 py-2 text-center text-black shadow-lg',
+          'animate-fade-in'
+        )}
+        >
           🎉 당첨:
           {' '}
           {result}
@@ -52,7 +67,10 @@ const GachaPage = () => {
 
       {/* 가챠 버튼 */}
       <button
-        className="rounded-md bg-slate-600 px-3 py-2 text-white hover:bg-slate-700 disabled:opacity-50"
+        className={cn(
+          'rounded-md bg-slate-600 px-3 py-2 text-white hover:bg-slate-700 disabled:opacity-50',
+          isLoading && 'cursor-wait'
+        )}
         onClick={onClickGacha}
         disabled={isLoading}
       >
