@@ -12,6 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.2",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.1",
     "class-variance-authority": "^0.7.1",
@@ -21,9 +22,12 @@
     "react": "^19.0.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^19.0.0",
+    "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "usehooks-ts": "^3.1.0"
+    "usehooks-ts": "^3.1.0",
+    "vaul": "^1.1.1",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^2.11.0",
