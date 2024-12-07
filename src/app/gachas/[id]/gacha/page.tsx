@@ -3,6 +3,8 @@ import { useState } from 'react'
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'usehooks-ts'
 
+import { cn } from '@/lib/utils'
+
 const GachaPage = () => {
   const { width, height } = useWindowSize()
   const [isLoading, setIsLoading] = useState(false)
@@ -30,9 +32,7 @@ const GachaPage = () => {
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`flex h-44 w-40 items-center justify-center bg-blue-800 text-center text-white ${
-              isLoading ? 'opacity-50' : ''
-            }`}
+            className={cn('flex h-44 w-40 items-center justify-center bg-blue-800 text-center text-white', isLoading ? 'opacity-50' : '')}
           >
             {isLoading ? '로딩 중...' : card}
           </div>
@@ -41,7 +41,7 @@ const GachaPage = () => {
 
       {/* 결과 표시 */}
       {result && (
-        <div className="fixed left-1/2 top-28 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md bg-white px-4 py-2 text-center text-black shadow-lg">
+        <div className="fixed left-1/2  top-28 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md bg-white px-4 py-2 text-center text-black shadow-lg">
           🎉 당첨:
           {' '}
           {result}
