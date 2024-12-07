@@ -4,16 +4,21 @@ import { getSupabaseReqResClient } from '@/lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
   const { supabase, response } = getSupabaseReqResClient(request)
-  const sessionData = await supabase.auth.getSession()
+  const { data } = await supabase.auth.getSession()
 
-  const session = sessionData.data.session
-
+  const session = data.session
+  console.log(session)
   if (!session) {
     const { data: anonData, error: anonError } = await supabase.auth.signInAnonymously()
     if (anonError || !anonData.session) {
       // TODO: error 페이지로 리다이렉션. 'Failed to sign in anonymously'
       return NextResponse.error()
     }
+  }
+
+  const requestedPath = request.nextUrl.pathname
+  if (session && !session.user.user_metadata?.username && requestedPath !== '/register') {
+    return NextResponse.redirect(new URL(`/register?redirect_uri=${requestedPath}${request.nextUrl.search}`, request.url))
   }
 
   return response.value

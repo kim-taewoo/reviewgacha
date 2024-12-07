@@ -13,6 +13,8 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          is_used: boolean
+          post_id: number | null
           reward: Json | null
           user_id: string
           username: string | null
@@ -20,6 +22,8 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
+          is_used?: boolean
+          post_id?: number | null
           reward?: Json | null
           user_id: string
           username?: string | null
@@ -27,24 +31,19 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
+          is_used?: boolean
+          post_id?: number | null
           reward?: Json | null
           user_id?: string
           username?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'gachas_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: 'gachas_post_id_fkey'
+            columns: ['post_id']
             isOneToOne: false
-            referencedRelation: 'profiles'
+            referencedRelation: 'posts'
             referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'gachas_username_fkey'
-            columns: ['username']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['name']
           },
         ]
       }
@@ -69,55 +68,43 @@ export type Database = {
         }
         Relationships: []
       }
-      profiles: {
-        Row: {
-          created_at: string
-          id: string
-          name: string | null
-        }
-        Insert: {
-          created_at?: string
-          id: string
-          name?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          name?: string | null
-        }
-        Relationships: []
-      }
       reviews: {
         Row: {
           content: string
           created_at: string
           id: number
           media: Json | null
+          post_id: number
           score: number | null
           user_id: string
+          username: string
         }
         Insert: {
           content: string
           created_at?: string
           id?: number
           media?: Json | null
+          post_id: number
           score?: number | null
           user_id: string
+          username: string
         }
         Update: {
           content?: string
           created_at?: string
           id?: number
           media?: Json | null
+          post_id?: number
           score?: number | null
           user_id?: string
+          username?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'reviews_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: 'reviews_post_id_fkey'
+            columns: ['post_id']
             isOneToOne: false
-            referencedRelation: 'profiles'
+            referencedRelation: 'posts'
             referencedColumns: ['id']
           },
         ]
