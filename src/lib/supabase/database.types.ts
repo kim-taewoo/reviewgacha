@@ -9,7 +9,119 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      gachas: {
+        Row: {
+          created_at: string
+          id: number
+          reward: Json | null
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          reward?: Json | null
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          reward?: Json | null
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'gachas_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'gachas_username_fkey'
+            columns: ['username']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['name']
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: number
+          title: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: number
+          title?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: number
+          title?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          content: string
+          created_at: string
+          id: number
+          media: Json | null
+          score: number | null
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: number
+          media?: Json | null
+          score?: number | null
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: number
+          media?: Json | null
+          score?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'reviews_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
