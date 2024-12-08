@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -11,6 +11,7 @@ export const GachaContainer = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const onClickGacha = (index: number) => {
     if (isLoading) return
@@ -21,7 +22,17 @@ export const GachaContainer = () => {
     // 선택된 카드만 뒤집기
     setFlippedIndex(index)
 
+    let flipState = true
+    flipIntervalRef.current = setInterval(() => {
+      flipState = !flipState
+      setFlippedIndex(flipState ? index : null)
+    }, 700)
+
     setTimeout(() => {
+      if (flipIntervalRef.current) {
+        clearInterval(flipIntervalRef.current)
+        flipIntervalRef.current = null
+      }
       // 선택된 카드에 대한 결과를 표시
       const selectedCard = cards[index]
       setResult(selectedCard)
