@@ -7,7 +7,6 @@ export async function middleware(request: NextRequest) {
   const { data } = await supabase.auth.getSession()
 
   const session = data.session
-  console.log(session)
   if (!session) {
     const { data: anonData, error: anonError } = await supabase.auth.signInAnonymously()
     if (anonError || !anonData.session) {

@@ -44,7 +44,6 @@ export function ReviewForm({ postId }: { postId: string }) {
         post_id: postId,
       })
 
-    console.log(data, error)
 
     // Reset form
     setContent('')
