@@ -20,9 +20,10 @@ interface Props {
   isOpenModal: boolean
   setIsOpenModal: Dispatch<SetStateAction<boolean>>
   resetGacha: () => void
+  image_url: string
 }
 
-export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha }: Props) => {
+export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha, image_url }: Props) => {
   // const { width, height } = useWindowSize()
 
   const navigate = useRouter()
@@ -53,7 +54,7 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
                 추억을 쌓아보세요!
               </DialogDescription>
               <div className="flex justify-center">
-                <Image src="/Card 1.png" alt="card image" width={158} height={195} className="rounded-lg shadow-lg" />
+                <Image src={image_url} alt="card image" width={158} height={195} className="rounded-lg shadow-lg" />
               </div>
               <DialogFooter className="flex w-full gap-4">
                 <Button

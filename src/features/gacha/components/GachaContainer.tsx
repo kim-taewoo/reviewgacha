@@ -5,6 +5,7 @@ import { useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 import { GachaResultModal } from './GachaResultModal'
+import gacha, { GachaResult } from '../gacha'
 
 export const GachaContainer = () => {
   const [result, setResult] = useState<string | null>(null)
@@ -13,7 +14,9 @@ export const GachaContainer = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const onClickGacha = (index: number) => {
+  const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
+
+  const onClickGacha = async (index: number) => {
     if (isLoading) return
 
     setIsLoading(true)
@@ -21,6 +24,12 @@ export const GachaContainer = () => {
 
     // 선택된 카드만 뒤집기
     setFlippedIndex(index)
+
+    const response = await gacha();
+    if(!response) return;
+
+    const randomIndex = Math.floor(Math.random() * response.length)
+    setGachaResult(response[randomIndex])
 
     let flipState = true
     flipIntervalRef.current = setInterval(() => {
@@ -81,7 +90,7 @@ export const GachaContainer = () => {
 
                 {/* 카드 앞면 */}
                 <div className="absolute flex cursor-pointer items-center justify-center shadow-md backface-hidden rotate-y-180">
-                  <Image src="/Card 1.png" alt="card image" width={158} height={195} />
+                  <Image src={gachaResult?.image_url || "/Card 1.png"} alt="card image" width={158} height={195} />
                 </div>
               </div>
             </div>
@@ -89,8 +98,7 @@ export const GachaContainer = () => {
         </div>
 
         {/* 결과 표시 */}
-        <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} />
-
+        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url}/> }
       </div>
     </>
   )
