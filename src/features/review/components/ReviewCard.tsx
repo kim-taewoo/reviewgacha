@@ -44,7 +44,7 @@ export function ReviewCard({
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground">
-          This product exceeded my expectations! The quality is outstanding, and it's incredibly easy to use. I would highly recommend it to anyone looking for a reliable solution.
+          {content}
         </p>
         {media?.imageUrls?.length && (
           <div className="mt-3">

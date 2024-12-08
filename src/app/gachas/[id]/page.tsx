@@ -31,7 +31,7 @@ export default async function ReviewsPage({ params }: { params: Params }) {
 
   return (
     <>
-      <div>
+      <div className="mb-32 w-full">
         <h1 className="my-5 text-center text-3xl font-bold">테오의 스프린트</h1>
         <div className="flex items-center justify-end gap-3">
           <div>
