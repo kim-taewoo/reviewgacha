@@ -1,11 +1,14 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Star, Heart } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Review } from "@/features/gacha/types"
+import { Star, ThumbsUp, MessageSquare } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Review } from '@/features/gacha/types'
+import getDateForm from '@/utils/dateForm'
 
 export function ReviewCard({
   created_at,
@@ -28,33 +31,38 @@ export function ReviewCard({
         </Avatar>
         <div>
           <h3 className="text-lg font-semibold">{username}</h3>
-          <div className="flex text-yellow-400">
-            {[...Array(score ?? 0)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-current" />
-            ))}
-            {[...Array(5-(score??0))].map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-none" />
-            ))}
-          </div>
+          <div className="text-xs text-gray-400">{getDateForm(created_at)}</div>
         </div>
       </CardHeader>
       <CardContent>
+        <div className="flex gap-0.5 text-yellow-400">
+          {[...Array(score ?? 0)].map((_, i) => (
+            <Star key={i} className="size-5 fill-current" />
+          ))}
+          {[...Array(5 - (score ?? 0))].map((_, i) => (
+            <Star key={i} className="size-5 fill-none" />
+          ))}
+        </div>
         <p className="text-muted-foreground">
           This product exceeded my expectations! The quality is outstanding, and it's incredibly easy to use. I would highly recommend it to anyone looking for a reliable solution.
+          {/* {content} */}
         </p>
       </CardContent>
       <CardFooter>
+        <Button variant="ghost" className="gap-2 text-muted-foreground" onClick={() => toast.error('댓글 기능은 아직 구현되지 않았습니다 !')}>
+          <MessageSquare />
+          {0}
+        </Button>
         <Button
           variant="ghost"
           size="sm"
           className={`gap-2 ${liked ? 'text-red-500' : 'text-muted-foreground'}`}
-          onClick={() => setLiked(!liked)}
+          onClick={() => setLiked(prev => !prev)}
         >
-          <Heart className={`w-5 h-5 ${liked ? 'fill-current' : ''}`} />
+          <ThumbsUp className={`size-5 ${liked ? 'fill-current' : ''}`} />
           {liked ? 'Liked' : 'Like'}
         </Button>
       </CardFooter>
     </Card>
   )
 }
-
