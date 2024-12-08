@@ -1,7 +1,8 @@
 'use client'
-import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+
+import { cn } from '@/lib/utils'
 
 import { GachaResultModal } from './GachaResultModal'
 
@@ -10,6 +11,7 @@ export const GachaContainer = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const onClickGacha = (index: number) => {
     if (isLoading) return
@@ -18,6 +20,12 @@ export const GachaContainer = () => {
     setResult(null)
 
     setFlippedIndex(null)
+
+    let flipState = true
+    flipIntervalRef.current = setInterval(() => {
+      flipState = !flipState
+      setFlippedIndex(flipState ? index : null)
+    }, 700)
 
     setTimeout(() => {
       // 스피너가 끝난 후 선택된 카드만 뒤집기
