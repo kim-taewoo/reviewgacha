@@ -47,7 +47,6 @@ export function ReviewForm({ postId }: { postId: string }) {
         post_id: postId,
       })
 
-
     // Reset form
     setContent('')
     setRating(0)
@@ -149,7 +148,7 @@ export function ReviewForm({ postId }: { postId: string }) {
           <input
             type="file"
             ref={fileInputRef}
-            onChange={handleImageUpload}
+            onChange={() => {}}
             accept="image/*"
             multiple
             className="hidden"

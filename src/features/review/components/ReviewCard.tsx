@@ -1,7 +1,6 @@
 'use client'
 
 import { Star, ThumbsUp, MessageSquare } from 'lucide-react'
-import { revalidatePath } from 'next/cache'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -34,7 +33,7 @@ export function ReviewCard({
 
   useEffect(() => {
     const getUserId = async () => {
-      const { data: sessionData, error: _sessionError } = await supabase.auth.getSession()
+      const { data: sessionData } = await supabase.auth.getSession()
       const session = sessionData?.session
       const user = session?.user
 
