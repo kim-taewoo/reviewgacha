@@ -14,6 +14,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { DEFAULT_URL } from '@/constatns'
 
 interface Props {
   result: string | null
@@ -70,8 +71,7 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
                   type="button"
                   variant="secondary"
                   onClick={() => {
-                    // 배포되면 url 수정하기
-                    navigate.push(`http://localhost:3000/gachas/${param.id}`)
+                    navigate.push(`${DEFAULT_URL}/gachas/${param.id}`)
                     resetGacha()
                   }}
                   className="w-full border-2"

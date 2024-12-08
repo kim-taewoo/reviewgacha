@@ -9,7 +9,7 @@ export interface GachaResult {
 }
 
 const PROBABILITIES = {
-  special: 0.03,
+  special: 0.015,
   fairy: 0.30,
   normal: 1.00,
 } as const

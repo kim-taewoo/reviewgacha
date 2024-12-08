@@ -9,6 +9,7 @@ import { Gacha } from '../types'
 import { getGachaResult, updateRewardId, type GachaResult } from '../utils/getGachaResult'
 
 import { GachaResultModal } from './GachaResultModal'
+import { NoGachaLeftModal } from './NoGachaLeftModal'
 
 export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[], postId: string }) => {
   const [result, setResult] = useState<string | null>(null)
@@ -18,6 +19,9 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
+
+  console.log(unusedGachas)
+  console.log(gachaResult)
 
   const onClickGacha = async (index: number) => {
     if (isLoading) return
@@ -34,7 +38,6 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
     const randomIndex = Math.floor(Math.random() * response.length)
     setGachaResult(response[randomIndex])
     await updateRewardId(unusedGachas[0].id, response[randomIndex].reward_id)
-    await revalidatePage(`/gachas/${postId}`)
     let flipState = true
     flipIntervalRef.current = setInterval(() => {
       flipState = !flipState
@@ -54,6 +57,8 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
 
     setTimeout(() => {
       setIsOpenModal(true)
+
+      revalidatePage(`/gachas/${postId}/gacha`)
     }, 3000)
   }
 
@@ -100,6 +105,10 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
             </div>
           ))}
         </div>
+
+        {unusedGachas.length === 0 && !result && (
+          <NoGachaLeftModal />
+        )}
 
         {/* 결과 표시 */}
         { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url} /> }
