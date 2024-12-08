@@ -19,9 +19,6 @@ export const GachaContainer = ({ ticketCount }: Params) => {
   const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
 
   const onClickGacha = async (index: number) => {
-  const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
-
-  const onClickGacha = async (index: number) => {
     if (isLoading) return
 
     setIsLoading(true)
@@ -103,7 +100,16 @@ export const GachaContainer = ({ ticketCount }: Params) => {
         </div>
 
         {/* 결과 표시 */}
-        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} ticketCount={ticketCount} image_url={gachaResult.image_url} /> }
+        {gachaResult && (
+          <GachaResultModal
+            result={result}
+            isOpenModal={isOpenModal}
+            setIsOpenModal={setIsOpenModal}
+            resetGacha={resetGacha}
+            ticketCount={ticketCount}
+            image_url={gachaResult.image_url}
+          />
+        )}
       </div>
     </>
   )
