@@ -20,9 +20,10 @@ interface Props {
   isOpenModal: boolean
   setIsOpenModal: Dispatch<SetStateAction<boolean>>
   resetGacha: () => void
+  ticketCount: number
 }
 
-export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha }: Props) => {
+export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha, ticketCount }: Props) => {
   // const { width, height } = useWindowSize()
 
   const navigate = useRouter()
@@ -56,15 +57,20 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
                 <Image src="/Card 1.png" alt="card image" width={158} height={195} className="rounded-lg shadow-lg" />
               </div>
               <DialogFooter className="flex w-full gap-4">
-                <Button
-                  type="button"
-                  onClick={() => {
-                    resetGacha()
-                  }}
-                  className="w-full rounded-lg text-white"
-                >
-                  다시뽑기
-                </Button>
+                {
+                  ticketCount >= 0 && (
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        resetGacha()
+                      }}
+                      className="w-full rounded-lg text-white"
+                    >
+                      다시뽑기
+                    </Button>
+                  )
+                }
+
                 <Button
                   type="button"
                   variant="secondary"

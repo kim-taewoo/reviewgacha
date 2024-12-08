@@ -6,14 +6,16 @@ import { cn } from '@/lib/utils'
 
 import { GachaResultModal } from './GachaResultModal'
 
-export const GachaContainer = () => {
+type Params = { ticketCount: number }
+
+export const GachaContainer = ({ ticketCount }: Params) => {
   const [result, setResult] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
   const [isOpenModal, setIsOpenModal] = useState(false)
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const onClickGacha = (index: number) => {
+  const onClickGacha = async (index: number) => {
     if (isLoading) return
 
     setIsLoading(true)
@@ -28,14 +30,16 @@ export const GachaContainer = () => {
       setFlippedIndex(flipState ? index : null)
     }, 700)
 
-    setTimeout(() => {
+    setTimeout(async () => {
       if (flipIntervalRef.current) {
         clearInterval(flipIntervalRef.current)
         flipIntervalRef.current = null
       }
+
       // 선택된 카드에 대한 결과를 표시
       const selectedCard = cards[index]
       setResult(selectedCard)
+
       setIsLoading(false)
     }, 2000)
 
@@ -89,7 +93,7 @@ export const GachaContainer = () => {
         </div>
 
         {/* 결과 표시 */}
-        <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} />
+        <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} ticketCount={ticketCount} />
 
       </div>
     </>
