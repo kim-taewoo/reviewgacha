@@ -4,6 +4,8 @@ import { useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
+import { getGachaResult, type GachaResult } from '../utils/getGachaResult'
+
 import { GachaResultModal } from './GachaResultModal'
 
 type Params = { ticketCount: number }
@@ -15,6 +17,8 @@ export const GachaContainer = ({ ticketCount }: Params) => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
+  const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
+
   const onClickGacha = async (index: number) => {
     if (isLoading) return
 
@@ -24,22 +28,26 @@ export const GachaContainer = ({ ticketCount }: Params) => {
     // 선택된 카드만 뒤집기
     setFlippedIndex(index)
 
+    const response = await getGachaResult()
+    if (!response) return
+
+    const randomIndex = Math.floor(Math.random() * response.length)
+    setGachaResult(response[randomIndex])
+
     let flipState = true
     flipIntervalRef.current = setInterval(() => {
       flipState = !flipState
       setFlippedIndex(flipState ? index : null)
     }, 700)
 
-    setTimeout(async () => {
+    setTimeout(() => {
       if (flipIntervalRef.current) {
         clearInterval(flipIntervalRef.current)
         flipIntervalRef.current = null
       }
-
       // 선택된 카드에 대한 결과를 표시
       const selectedCard = cards[index]
       setResult(selectedCard)
-
       setIsLoading(false)
     }, 2000)
 
@@ -85,7 +93,7 @@ export const GachaContainer = ({ ticketCount }: Params) => {
 
                 {/* 카드 앞면 */}
                 <div className="absolute flex cursor-pointer items-center justify-center shadow-md backface-hidden rotate-y-180">
-                  <Image src="/Card 1.png" alt="card image" width={158} height={195} />
+                  <Image src={gachaResult?.image_url || '/Card 1.png'} alt="card image" width={158} height={195} />
                 </div>
               </div>
             </div>
@@ -93,8 +101,7 @@ export const GachaContainer = ({ ticketCount }: Params) => {
         </div>
 
         {/* 결과 표시 */}
-        <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} ticketCount={ticketCount} />
-
+        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} ticketCount={ticketCount} image_url={gachaResult.image_url} /> }
       </div>
     </>
   )

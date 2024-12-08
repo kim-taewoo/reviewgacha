@@ -21,10 +21,11 @@ const GachaPage = async ({ params }: { params: Params }) => {
     console.error(error)
     return <div>에러가 발생했습니다</div>
   }
+  if (!user) return
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-yellow-200 to-blue-200">
-      <GachaContainer ticketCount={notUsedGachas.length} />
+      <GachaContainer ticketCount={notUsedGachas.length} postId={id} userId={user.id} />
     </div>
   )
 }
