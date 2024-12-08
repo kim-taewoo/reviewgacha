@@ -13,8 +13,6 @@ export const GachaContainer = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
-
   const onClickGacha = (index: number) => {
     if (isLoading) return
 

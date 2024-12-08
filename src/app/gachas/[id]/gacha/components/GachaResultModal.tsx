@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 // import Confetti from 'react-confetti'
 // import { useWindowSize } from 'usehooks-ts'
 
@@ -26,6 +26,7 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
   // const { width, height } = useWindowSize()
 
   const navigate = useRouter()
+  const param = useParams()
 
   return (
     <>
@@ -69,7 +70,7 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
                   variant="secondary"
                   onClick={() => {
                     // 배포되면 url 수정하기
-                    navigate.push('http://localhost:3000/gachas/1')
+                    navigate.push(`http://localhost:3000/gachas/${param.id}`)
                     resetGacha()
                   }}
                   className="w-full border-2"
