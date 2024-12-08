@@ -14,3 +14,7 @@ export function encodedRedirect(
 ) {
   return redirect(`${path}?${type}=${encodeURIComponent(message)}`)
 }
+
+export function getRandomHexString() {
+  return Math.random().toString(16).slice(2)
+}
