@@ -5,7 +5,7 @@ import { useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 import { GachaResultModal } from './GachaResultModal'
-import gacha, { GachaResult } from '../gacha'
+import { getGachaResult, type GachaResult } from '../utils/getGachaResult'
 
 export const GachaContainer = () => {
   const [result, setResult] = useState<string | null>(null)
@@ -25,7 +25,7 @@ export const GachaContainer = () => {
     // 선택된 카드만 뒤집기
     setFlippedIndex(index)
 
-    const response = await gacha();
+    const response = await getGachaResult();
     if(!response) return;
 
     const randomIndex = Math.floor(Math.random() * response.length)

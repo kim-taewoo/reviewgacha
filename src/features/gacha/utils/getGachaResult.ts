@@ -6,15 +6,20 @@ export interface GachaResult {
   reward_name: string
 }
 
-export default async function gacha(): Promise<GachaResult[] | null> {
+const PROBABILITIES = {
+  special: 0.03,
+  fairy: 0.30,
+  normal: 1.00,
+} as const;
+
+export async function getGachaResult(): Promise<GachaResult[] | null> {
   const supabase = getSupabaseBrowserClient();
 
-  let type: "special"|"fairy"|"normal"
+  const rand = Math.random();
+  let type: "special"|"fairy"|"normal" = "normal";
 
-  const rand = Math.random()
-  if (rand < 0.03) type = "special"
-  else if (rand < 0.03 + 0.30) type = "fairy"
-  else type = "normal"
+  if (rand < PROBABILITIES.special) type = "special"
+  else if (rand < PROBABILITIES.special + PROBABILITIES.fairy) type = "fairy"
 
   const {data: rewards, error} = await supabase.from("posts").select(`rewards->${type}`).single()
   if(!rewards || error) return null;
