@@ -9,7 +9,7 @@ export function Header({ ticketCount = 0 }: { ticketCount?: number }) {
           리뷰가챠!
         </Link>
         <div className="flex items-center gap-2">
-          <Ticket className="size-5 text-gray-600" />
+          <Ticket className="size-5 -rotate-45 text-gray-600" />
           <span className="text-sm text-gray-600">
             내 가챠권
             <span className="ml-1 text-[#FF9E49]">

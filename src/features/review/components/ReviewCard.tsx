@@ -1,6 +1,7 @@
 'use client'
 
 import { Star, ThumbsUp, MessageSquare } from 'lucide-react'
+import { revalidatePath } from 'next/cache'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -10,6 +11,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import getDateForm from '@/utils/dateForm'
 
+import { revalidateGachaPage } from '../actions'
 import { Review } from '../types'
 
 import { ReviewImages } from './ReviewImages'
@@ -57,6 +59,7 @@ export function ReviewCard({
 
     toast.success('좋아요가 반영되었습니다.')
     setLiked(true)
+    revalidateGachaPage(`/gachas`)
   }
 
   return (
