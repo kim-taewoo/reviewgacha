@@ -1,149 +1,91 @@
 'use client'
+import Image from 'next/image'
 import { useState } from 'react'
-import Confetti from 'react-confetti'
-import { useWindowSize } from 'usehooks-ts'
 
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-import { GachaCard } from './GachaCard'
+import { GachaResult } from './GachaResult'
 
 export const GachaContainer = () => {
-  const { width, height } = useWindowSize()
-  const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<string | null>(null)
-  const [flippedIndexes, setFlippedIndexes] = useState<number[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
-  const onClickGacha = () => {
+  const onClickGacha = (index: number) => {
+    if (isLoading) return
+
     setIsLoading(true)
     setResult(null)
-    setFlippedIndexes([])
 
-    // 3초 후 결과 표시
+    // 선택된 카드만 뒤집기
+    setFlippedIndex(index)
+
     setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * cards.length)
-      const randomResult = cards[randomIndex]
-      setResult(randomResult)
-      setFlippedIndexes([randomIndex])
+      // 선택된 카드에 대한 결과를 표시
+      const selectedCard = cards[index]
+      setResult(selectedCard)
       setIsLoading(false)
+    }, 2000)
+
+    setTimeout(() => {
+      setIsOpenModal(true)
     }, 3000)
   }
 
-  const sortedUsers = [...users].sort((a, b) => b.score - a.score) // 랭킹 순위
-
   return (
     <>
-      {result && <Confetti width={width} height={height} />}
-      <header className="text-lg font-semibold">가챠권 페이지</header>
-
       {/* 카드 목록 */}
-      <div
-        className={cn(
-          'flex flex-wrap justify-center gap-4 bg-gray-100 h-56 overflow-hidden p-8 relative',
-          isLoading && 'pointer-events-none'
-        )}
-      >
-        {cards.map((card, index) => (
-          <div
-            key={index}
-            className={cn(
-              'relative',
-              index === 0 && 'ml-[-10%]',
-              index === cards.length - 1 && 'mr-[-10%]'
-            )}
-          >
-            <GachaCard
-              frontContent={card}
-              backContent="뒷면"
-              isLoading={isLoading}
-              isFlipped={flippedIndexes.includes(index)}
-            />
-          </div>
-        ))}
-      </div>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-yellow-200 to-blue-200">
+        {/* 상단 텍스트 */}
+        <p className="mb-[72px] text-2xl font-bold text-[#1F2024]">
+          한 장의 카드를
+          {' '}
+          <br />
+          {' '}
+          선택해 주세요
+        </p>
 
-      {/* 결과 표시 */}
-      {result && (
-        <div className={cn(
-          'fixed left-1/2 top-28 z-10 -translate-x-1/2 -translate-y-1/2 rounded-md bg-white px-4 py-2 text-center text-black shadow-lg',
-          'animate-fade-in'
-        )}
-        >
-          🎉 당첨:
-          {' '}
-          {result}
-          {' '}
-          🎉
-        </div>
-      )}
-      {/* 가챠 버튼 */}
-      <Button
-        className={cn(
-          'mx-auto mt-4 block',
-          'text-sm sm:text-base lg:text-lg',
-          isLoading && 'cursor-wait'
-        )}
-        onClick={onClickGacha}
-        disabled={isLoading}
-      >
-        {isLoading ? '뽑는 중...' : '가챠권 뽑기'}
-      </Button>
-      {/* 다른 사람의 결과 */}
-      <div className="flex justify-between bg-yellow-300">
-        <div>이미지?</div>
-        <div>
-          <p>이달의 가챠 랭킹</p>
-          <div className="mt-4">
-            {sortedUsers.length > 0
-              ? (
-                  sortedUsers.map((user, index) => (
-                    <div
-                      key={user.userId}
-                      className="flex justify-between border-b py-2 text-sm"
-                    >
-                      <span className="font-medium">
-                        {index + 1}
-                        .
-                        {user.username}
-                      </span>
-                    </div>
-                  ))
-                )
-              : (
-                  <p>랭킹 데이터가 없습니다.</p>
+        {/* 카드 리스트 */}
+        <div className="grid grid-cols-2 gap-6">
+          {cards.map((card, index) => (
+            <div key={index} onClick={() => onClickGacha(index)}>
+              <div
+                className={cn(
+                  'relative h-44 w-32 transition-transform duration-700 transform-style-preserve-3d',
+                  flippedIndex === index && 'rotate-y-180',
+                  isLoading && 'pointer-events-none opacity-50'
                 )}
-          </div>
+              >
+                {/* 로딩 스피너 */}
+                {isLoading && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="size-8 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+                  </div>
+                )}
+
+                {/* 카드 뒷면 */}
+                <div className="absolute flex cursor-pointer items-center justify-center shadow-md backface-hidden">
+                  <Image src="/Card back.png" alt="card image" width={158} height={195} />
+                </div>
+
+                {/* 카드 앞면 */}
+                <div className="absolute flex cursor-pointer items-center justify-center shadow-md backface-hidden rotate-y-180">
+                  <Image src="/Card 1.png" alt="card image" width={158} height={195} />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
+
+        {/* 결과 표시 */}
+        <GachaResult result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} />
+
       </div>
+      {/* 다른 사람의 결과 */}
+      {/* <GachaAwrad /> */}
     </>
   )
 }
 
-const cards = ['카드1', '카드2', '카드3', '카드4', '카드5', '카드6', '카드7', '카드8', '카드9', '카드10', '카드11', '카드12']
-const users = [
-  {
-    userId: 1,
-    username: 'sunny',
-    score: 10,
-  },
-  {
-    userId: 2,
-    username: 'zeroha',
-    score: 90,
-  },
-  {
-    userId: 3,
-    username: 'minha',
-    score: 70,
-  },
-  {
-    userId: 4,
-    username: 'dori',
-    score: 60,
-  },
-  {
-    userId: 5,
-    username: 'noba',
-    score: 100,
-  },
-]
+const cards = ['카드1', '카드2', '카드3', '카드4']
