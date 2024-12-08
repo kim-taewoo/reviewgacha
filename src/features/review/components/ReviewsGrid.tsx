@@ -1,20 +1,19 @@
-import React from 'react'
-
-// import { reviews } from '../consts'
-
-import { ReviewCard } from './ReviewCard'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
-export async function ReviewsGrid() {
+import { Review } from '../types'
+
+import { ResponsiveReviewCards } from './ResponsiveReviewCards'
+
+export async function ReviewsGrid({ postId }: { postId: string }) {
   const supabase = await getSupabaseServerClient()
-  const { data: reviewsData, error } = await supabase.from('reviews').select().match({post_id: '1'})
+  const { data: reviewsData, error } = await supabase.from('reviews').select().match({ post_id: postId }).order('created_at', { ascending: false })
+
+  const reviews = reviewsData ?? [] as Review[]
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <div className="w-full grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {(reviewsData ?? []).map(review => (
-          <ReviewCard key={review.id} {...review} />
-        ))}
+      <div className="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ResponsiveReviewCards reviews={reviews} />
       </div>
     </div>
   )

@@ -37,46 +37,20 @@ export function ReviewForm({ postId }: { postId: string }) {
     }
 
     // Save to database
-    // const { data, error: supabaseError } = await supabase
-    //   .from('reviews')
-    //   .insert({
-    //     score: rating,
-    //     content: content.trim(),
-    //     post_id: postId,
-    //     images: images,
-    //   })
-    //   .select()
+    const { data, error } = await supabase
+      .from('reviews')
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+      .insert({
+        score: rating,
+        content,
+        post_id: postId,
+      })
 
-    // if (supabaseError) {
-    //   console.error('Supabase error:', supabaseError)
-    //   setError({ type: null, message: `리뷰 등록에 실패했습니다: ${supabaseError.message}` })
-    // }
-    // else {
-    //   console.log('Review submitted successfully:', data)
-    //   // Reset form
-    //   setContent('')
-    //   setRating(0)
-    //   setImages([])
-    //   alert('리뷰가 성공적으로 등록되었습니다.')
-    // }
-    redirect(`/gachas/${postId}`)
-  }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files) {
-      const newImages = Array.from(files).map(file => URL.createObjectURL(file))
-      if (images.length + newImages.length > 3) {
-        setError({ type: 'image', message: '이미지는 최대 3개까지 업로드 가능합니다' })
-        return
-      }
-      setImages(prev => [...prev, ...newImages])
-      setError({ type: null, message: '' })
-    }
-  }
-
-  const removeImage = (index: number) => {
-    setImages(images.filter((_, i) => i !== index))
+    // Reset form
+    setContent('')
+    setRating(0)
   }
 
   return (

@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
         <main className="flex min-h-dvh w-full flex-col items-center">
           {children}
