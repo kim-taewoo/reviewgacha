@@ -1,4 +1,11 @@
 'use client'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+// import Confetti from 'react-confetti'
+// import { useWindowSize } from 'usehooks-ts'
+
+import { Dispatch, SetStateAction } from 'react'
+
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -7,12 +14,6 @@ import {
   DialogFooter,
   DialogTitle,
 } from '@/components/ui/dialog'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-// import Confetti from 'react-confetti'
-// import { useWindowSize } from 'usehooks-ts'
-
-import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
   result: string | null
