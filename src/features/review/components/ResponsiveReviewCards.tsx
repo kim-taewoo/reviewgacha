@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 
 import { Review } from '../types'
@@ -13,6 +14,13 @@ interface Props {
 export const ResponsiveReviewCards = ({ reviews }: Props) => {
   const isMd = useMediaQuery('(min-width: 768px)')
   const isLg = useMediaQuery('(min-width: 1024px)')
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
 
   let columns = 1
   if (isMd) columns = 2

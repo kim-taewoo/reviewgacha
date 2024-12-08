@@ -6,7 +6,7 @@ export default async function NewReviewPage({ params }: { params: Params }) {
   const { id } = await params
 
   return (
-    <div className="margin flex size-full flex-1 flex-col items-center justify-center ">
+    <div className="flex size-full flex-1 flex-col items-center justify-center ">
       <ReviewForm postId={id} />
     </div>
   )
