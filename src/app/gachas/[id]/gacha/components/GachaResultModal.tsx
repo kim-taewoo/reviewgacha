@@ -1,9 +1,4 @@
 'use client'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-// import Confetti from 'react-confetti'
-// import { useWindowSize } from 'usehooks-ts'
-
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,14 +7,21 @@ import {
   DialogFooter,
   DialogTitle,
 } from '@/components/ui/dialog'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+// import Confetti from 'react-confetti'
+// import { useWindowSize } from 'usehooks-ts'
+
+import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
   result: string | null
   isOpenModal: boolean
-  setIsOpenModal: (isOpen: boolean) => void
+  setIsOpenModal: Dispatch<SetStateAction<boolean>>
+  resetGacha: () => void
 }
 
-export const GachaResult = ({ result, isOpenModal, setIsOpenModal }: Props) => {
+export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha }: Props) => {
   // const { width, height } = useWindowSize()
 
   const navigate = useRouter()
@@ -29,7 +31,12 @@ export const GachaResult = ({ result, isOpenModal, setIsOpenModal }: Props) => {
       <Dialog open={isOpenModal} onOpenChange={setIsOpenModal}>
         {result && (
           <>
-            <DialogContent className="flex flex-col items-center gap-8 rounded-lg p-6 shadow-lg sm:max-w-[335px]">
+            <DialogContent
+              onClick={() => {
+                resetGacha()
+              }}
+              className="flex flex-col items-center gap-8 rounded-lg p-6 shadow-lg sm:max-w-[335px]"
+            >
               {/* <Confetti
                 width={width}
                 height={height}
@@ -47,10 +54,25 @@ export const GachaResult = ({ result, isOpenModal, setIsOpenModal }: Props) => {
                 <Image src="/Card 1.png" alt="card image" width={158} height={195} className="rounded-lg shadow-lg" />
               </div>
               <DialogFooter className="flex w-full gap-4">
-                <Button type="button" onClick={() => location.reload()} className="w-full rounded-lg text-white">
+                <Button
+                  type="button"
+                  onClick={() => {
+                    resetGacha()
+                  }}
+                  className="w-full rounded-lg text-white"
+                >
                   다시뽑기
                 </Button>
-                <Button type="button" variant="secondary" onClick={() => navigate.push('http://localhost:3000/gachas/1')} className="w-full border-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => {
+                    // 배포되면 url 수정하기
+                    navigate.push('http://localhost:3000/gachas/1')
+                    resetGacha()
+                  }}
+                  className="w-full border-2"
+                >
                   되돌아가기
                 </Button>
               </DialogFooter>
