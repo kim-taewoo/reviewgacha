@@ -78,6 +78,7 @@ export type Database = {
           score: number | null
           user_id: string
           username: string
+          liked_by_ids: string[]
         }
         Insert: {
           content: string
@@ -88,6 +89,7 @@ export type Database = {
           score?: number | null
           user_id: string
           username: string
+          liked_by_ids: string[]
         }
         Update: {
           content?: string
@@ -98,6 +100,7 @@ export type Database = {
           score?: number | null
           user_id?: string
           username?: string
+          liked_by_ids?: string[]
         }
         Relationships: [
           {
