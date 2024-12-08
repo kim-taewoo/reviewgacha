@@ -2,6 +2,6 @@
 
 import { revalidatePath } from 'next/cache'
 
-export async function revalidateGachaPage(pathname: string) {
+export async function revalidatePage(pathname: string) {
   revalidatePath(pathname)
 }

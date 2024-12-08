@@ -4,13 +4,13 @@ import { Star, ThumbsUp, MessageSquare } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
+import { revalidatePage } from '@/actions'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import getDateForm from '@/utils/dateForm'
 
-import { revalidateGachaPage } from '../actions'
 import { Review } from '../types'
 
 import { ReviewImages } from './ReviewImages'
@@ -19,11 +19,10 @@ export function ReviewCard({
   created_at,
   id,
   media,
-  post_id,
   score,
-  user_id,
   username,
   content,
+  post_id,
   liked_by_ids,
 }: Review) {
   const supabase = getSupabaseBrowserClient()
@@ -55,10 +54,13 @@ export function ReviewCard({
 
     liked_by_ids.push(userId)
     const { error } = await supabase.from('reviews').update({ liked_by_ids }).eq('id', id).eq('post_id', '1')
-
+    if (error) {
+      toast.error('서버에 오류가 있습니다. 잠시 후 다시 시도해주세요.')
+      return
+    }
     toast.success('좋아요가 반영되었습니다.')
     setLiked(true)
-    revalidateGachaPage(`/gachas`)
+    revalidatePage(`/gachas/${post_id}`)
   }
 
   return (

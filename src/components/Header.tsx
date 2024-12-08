@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
-export function Header({ ticketCount = 0 }: { ticketCount?: number }) {
+export function Header({ ticketCount = 0, postId }: { postId: string, ticketCount?: number }) {
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -23,17 +23,19 @@ export function Header({ ticketCount = 0 }: { ticketCount?: number }) {
         <Link href="/" className="bg-gradient-to-r from-[#FF9E49] to-[#FFD849] bg-clip-text text-xl font-bold text-transparent">
           리뷰가챠!
         </Link>
-        <div className="flex items-center gap-2">
-          <Ticket className="size-5 -rotate-45 text-gray-600" />
-          <span className={cn('text-sm text-gray-600', animate ? 'animate-bounce' : '')}>
-            내 가챠권
-            <span className="ml-1 font-bold text-[#FF9E49]">
-              +
-              {ticketCount}
-            </span>
+        <Link href={`/gachas/${postId}/gacha`}>
+          <div className="flex items-center gap-2">
+            <Ticket className="size-5 -rotate-45 text-gray-600" />
+            <span className={cn('text-sm text-gray-600', animate ? 'animate-bounce' : '')}>
+              내 가챠권
+              <span className="ml-1 font-bold text-[#FF9E49]">
+                +
+                {ticketCount}
+              </span>
 
-          </span>
-        </div>
+            </span>
+          </div>
+        </Link>
       </div>
     </header>
   )

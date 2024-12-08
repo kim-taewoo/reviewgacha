@@ -14,7 +14,7 @@ export default function GachaLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="flex size-full flex-1 flex-col items-center gap-14">
+    <div className="flex size-full flex-1 flex-col items-center bg-[#f1f1f1]">
       {children}
     </div>
   )

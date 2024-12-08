@@ -16,6 +16,7 @@ export type Database = {
           is_used: boolean
           post_id: number | null
           reward: Json | null
+          reward_id: number | null
           user_id: string
           username: string | null
         }
@@ -25,6 +26,7 @@ export type Database = {
           is_used?: boolean
           post_id?: number | null
           reward?: Json | null
+          reward_id?: number | null
           user_id: string
           username?: string | null
         }
@@ -34,6 +36,7 @@ export type Database = {
           is_used?: boolean
           post_id?: number | null
           reward?: Json | null
+          reward_id?: number | null
           user_id?: string
           username?: string | null
         }
@@ -52,18 +55,21 @@ export type Database = {
           content: string
           created_at: string
           id: number
+          rewards: Json | null
           title: string | null
         }
         Insert: {
           content: string
           created_at?: string
           id?: number
+          rewards?: Json | null
           title?: string | null
         }
         Update: {
           content?: string
           created_at?: string
           id?: number
+          rewards?: Json | null
           title?: string | null
         }
         Relationships: []
@@ -73,34 +79,34 @@ export type Database = {
           content: string
           created_at: string
           id: number
+          liked_by_ids: string[]
           media: Json | null
           post_id: number
           score: number | null
           user_id: string
           username: string
-          liked_by_ids: string[]
         }
         Insert: {
           content: string
           created_at?: string
           id?: number
+          liked_by_ids?: string[]
           media?: Json | null
           post_id: number
           score?: number | null
           user_id: string
           username: string
-          liked_by_ids: string[]
         }
         Update: {
           content?: string
           created_at?: string
           id?: number
+          liked_by_ids?: string[]
           media?: Json | null
           post_id?: number
           score?: number | null
           user_id?: string
           username?: string
-          liked_by_ids?: string[]
         }
         Relationships: [
           {

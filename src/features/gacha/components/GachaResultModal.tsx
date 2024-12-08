@@ -1,10 +1,10 @@
 'use client'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
+import { Dispatch, SetStateAction } from 'react'
+
 // import Confetti from 'react-confetti'
 // import { useWindowSize } from 'usehooks-ts'
-
-import { Dispatch, SetStateAction } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {

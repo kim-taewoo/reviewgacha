@@ -2,12 +2,15 @@
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
+import { revalidatePage } from '@/actions'
 import { cn } from '@/lib/utils'
 
-import { GachaResultModal } from './GachaResultModal'
-import { getGachaResult, type GachaResult } from '../utils/getGachaResult'
+import { Gacha } from '../types'
+import { getGachaResult, updateRewardId, type GachaResult } from '../utils/getGachaResult'
 
-export const GachaContainer = () => {
+import { GachaResultModal } from './GachaResultModal'
+
+export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[], postId: string }) => {
   const [result, setResult] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
@@ -25,12 +28,13 @@ export const GachaContainer = () => {
     // 선택된 카드만 뒤집기
     setFlippedIndex(index)
 
-    const response = await getGachaResult();
-    if(!response) return;
+    const response = await getGachaResult()
+    if (!response) return
 
     const randomIndex = Math.floor(Math.random() * response.length)
     setGachaResult(response[randomIndex])
-
+    await updateRewardId(unusedGachas[0].id, response[randomIndex].reward_id)
+    await revalidatePage(`/gachas/${postId}`)
     let flipState = true
     flipIntervalRef.current = setInterval(() => {
       flipState = !flipState
@@ -90,7 +94,7 @@ export const GachaContainer = () => {
 
                 {/* 카드 앞면 */}
                 <div className="absolute flex cursor-pointer items-center justify-center shadow-md backface-hidden rotate-y-180">
-                  <Image src={gachaResult?.image_url || "/Card 1.png"} alt="card image" width={158} height={195} />
+                  <Image src={gachaResult?.image_url || '/Card 1.png'} alt="card image" width={158} height={195} />
                 </div>
               </div>
             </div>
@@ -98,7 +102,7 @@ export const GachaContainer = () => {
         </div>
 
         {/* 결과 표시 */}
-        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url}/> }
+        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url} /> }
       </div>
     </>
   )
