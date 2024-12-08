@@ -25,13 +25,13 @@ export default async function ReviewsPage({ params }: { params: Params }) {
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-20">
+    <>
       <Header ticketCount={notUsedGachas.length} />
       <h1 className="my-5 text-center text-3xl font-bold">테오의 스프린트</h1>
-      <div className="mb-32 w-full">
+      <div className="mb-32 w-full p-5">
         <ReviewsGrid postId={id} />
       </div>
       <Footer />
-    </div>
+    </>
   )
 }
