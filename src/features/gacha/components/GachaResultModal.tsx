@@ -56,6 +56,7 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
               </DialogDescription>
               <div className="flex justify-center">
                 <Image src={image_url} alt="card image" width={158} height={195} className="rounded-lg shadow-lg" />
+                <Image src={image_url} alt="card image" width={158} height={195} className="rounded-lg shadow-lg" />
               </div>
               <DialogFooter className="flex w-full gap-4">
                 {

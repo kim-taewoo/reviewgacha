@@ -4,9 +4,8 @@ import { useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
-import { getGachaResult, type GachaResult } from '../utils/getGachaResult'
-
 import { GachaResultModal } from './GachaResultModal'
+import { getGachaResult, type GachaResult } from '../utils/getGachaResult'
 
 type Params = { ticketCount: number }
 
@@ -17,6 +16,9 @@ export const GachaContainer = ({ ticketCount }: Params) => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
+  const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
+
+  const onClickGacha = async (index: number) => {
   const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
 
   const onClickGacha = async (index: number) => {
