@@ -63,7 +63,47 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+      },
     },
   },
-  plugins: [animate],
+  plugins: [
+    function ({
+      addUtilities,
+    }: {
+      addUtilities: (
+        utilities: Record<string, Record<string, string>>,
+        options?: {
+          variants?: string[]
+          respectPrefix?: boolean
+          respectImportant?: boolean
+        }
+      ) => void
+    }) {
+      addUtilities(
+        {
+          '.transform-style-preserve-3d': {
+            transformStyle: 'preserve-3d',
+          },
+          '.perspective-1000': {
+            perspective: '1000px',
+          },
+          '.backface-hidden': {
+            backfaceVisibility: 'hidden',
+          },
+          '.rotate-y-180': {
+            transform: 'rotateY(180deg)',
+          },
+        },
+        { variants: ['responsive', 'hover'] }
+      )
+    },
+  ],
 } satisfies Config
