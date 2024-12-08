@@ -9,7 +9,106 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      gachas: {
+        Row: {
+          created_at: string
+          id: number
+          is_used: boolean
+          post_id: number | null
+          reward: Json | null
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_used?: boolean
+          post_id?: number | null
+          reward?: Json | null
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_used?: boolean
+          post_id?: number | null
+          reward?: Json | null
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'gachas_post_id_fkey'
+            columns: ['post_id']
+            isOneToOne: false
+            referencedRelation: 'posts'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: number
+          title: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: number
+          title?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: number
+          title?: string | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          content: string
+          created_at: string
+          id: number
+          media: Json | null
+          post_id: number
+          score: number | null
+          user_id: string
+          username: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: number
+          media?: Json | null
+          post_id: number
+          score?: number | null
+          user_id: string
+          username: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: number
+          media?: Json | null
+          post_id?: number
+          score?: number | null
+          user_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'reviews_post_id_fkey'
+            columns: ['post_id']
+            isOneToOne: false
+            referencedRelation: 'posts'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
