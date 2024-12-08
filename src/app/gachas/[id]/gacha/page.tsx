@@ -1,4 +1,4 @@
-import { GachaContainer } from './components/GachaContainer'
+import { GachaContainer } from '../../../../features/gacha/components/GachaContainer'
 
 const GachaPage = () => {
   return (
