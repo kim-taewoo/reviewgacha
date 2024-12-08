@@ -1,13 +1,14 @@
 'use client'
 
 import { Star, ThumbsUp, MessageSquare } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Review } from '@/features/gacha/types'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import getDateForm from '@/utils/dateForm'
 
 export function ReviewCard({
@@ -19,9 +20,42 @@ export function ReviewCard({
   user_id,
   username,
   content,
+  liked_by_ids,
 }: Review) {
+  const supabase = getSupabaseBrowserClient()
+
+  const [userId, setUserId] = useState<string>('')
   const [liked, setLiked] = useState(false)
-  console.log(score)
+
+  useEffect(() => {
+    const getUserId = async () => {
+      const { data: sessionData, error: _sessionError } = await supabase.auth.getSession()
+      const session = sessionData?.session
+      const user = session?.user
+
+      if (!user) return
+
+      setUserId(user?.id)
+      setLiked(liked_by_ids.includes(user.id))
+    }
+
+    getUserId()
+  }, [supabase])
+
+  const handleLike = async () => {
+    if (!userId) return
+    if (liked) {
+      toast.error('이미 좋아요를 눌렀음.')
+      return
+    }
+
+    liked_by_ids.push(userId)
+    const { error } = await supabase.from('reviews').update({ liked_by_ids }).eq('id', id).eq('post_id', '1')
+
+    toast.success('좋아요가 반영되었습니다.')
+    setLiked(true)
+  }
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="flex flex-row items-center gap-4">
@@ -44,8 +78,8 @@ export function ReviewCard({
           ))}
         </div>
         <p className="text-muted-foreground">
-          This product exceeded my expectations! The quality is outstanding, and it's incredibly easy to use. I would highly recommend it to anyone looking for a reliable solution.
-          {/* {content} */}
+          {/* This product exceeded my expectations! The quality is outstanding, and it's incredibly easy to use. I would highly recommend it to anyone looking for a reliable solution. */}
+          {content}
         </p>
       </CardContent>
       <CardFooter>
@@ -57,10 +91,10 @@ export function ReviewCard({
           variant="ghost"
           size="sm"
           className={`gap-2 ${liked ? 'text-red-500' : 'text-muted-foreground'}`}
-          onClick={() => setLiked(prev => !prev)}
+          onClick={() => handleLike()}
         >
           <ThumbsUp className={`size-5 ${liked ? 'fill-current' : ''}`} />
-          {liked ? 'Liked' : 'Like'}
+          {liked_by_ids.length > 99 ? 99 : liked_by_ids.length}
         </Button>
       </CardFooter>
     </Card>
