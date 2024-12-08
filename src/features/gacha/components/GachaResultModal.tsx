@@ -32,13 +32,18 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
 
   return (
     <>
-      <Dialog open={isOpenModal} onOpenChange={setIsOpenModal}>
+      <Dialog
+        open={isOpenModal}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) {
+            resetGacha()
+          }
+          setIsOpenModal(isOpen)
+        }}
+      >
         {result && (
           <>
             <DialogContent
-              onClick={() => {
-                resetGacha()
-              }}
               className="flex flex-col items-center gap-8 rounded-lg p-6 shadow-lg sm:max-w-[335px]"
             >
               {/* <Confetti

@@ -43,7 +43,7 @@ export function ReviewCard({
     }
 
     getUserId()
-  }, [supabase])
+  }, [supabase, liked_by_ids])
 
   const handleLike = async () => {
     if (!userId) return
