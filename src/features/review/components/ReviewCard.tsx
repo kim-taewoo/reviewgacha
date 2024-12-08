@@ -48,7 +48,7 @@ export function ReviewCard({
   const handleLike = async () => {
     if (!userId) return
     if (liked) {
-      toast.error('이미 좋아요를 눌렀음.')
+      toast.error('이미 좋아요를 눌렀습니다 :)')
       return
     }
 

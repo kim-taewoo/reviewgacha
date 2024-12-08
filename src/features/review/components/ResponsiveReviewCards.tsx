@@ -2,6 +2,8 @@
 
 import { useMediaQuery } from 'usehooks-ts'
 
+import { Review } from '../types'
+
 import { ReviewCard } from './ReviewCard'
 
 interface Props {
@@ -18,14 +20,12 @@ export const ResponsiveReviewCards = ({ reviews }: Props) => {
 
   const reviewsEachColumn = Math.ceil(reviews.length / columns)
 
-  console.log(isMd, isLg, reviewsEachColumn)
-
   return (
     <>
       {Array.from({ length: columns }).map((_, i) => (
         <div key={i} className="grid gap-4">
           {reviews.slice(i * reviewsEachColumn, (i + 1) * reviewsEachColumn).map(review => (
-            <ReviewCard {...review} />
+            <ReviewCard key={review.id} {...review} />
           ))}
         </div>
       ))}

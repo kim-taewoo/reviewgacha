@@ -48,7 +48,7 @@ export default async function ReviewsPage({ params }: { params: Params }) {
           </div>
 
         </div>
-        <ReviewsGrid />
+        <ReviewsGrid postId={id} />
       </div>
       <Footer />
     </>
