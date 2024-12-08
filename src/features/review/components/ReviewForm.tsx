@@ -1,132 +1,203 @@
 'use client'
 
-import { ArrowLeft, Star } from 'lucide-react'
+import { ArrowLeft, Star, X } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import { redirect } from 'next/navigation'
+import React, { useState, useRef } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+// import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 
 export function ReviewForm({ postId }: { postId: string }) {
-  const supabase = getSupabaseBrowserClient()
+  // const supabase = getSupabaseBrowserClient()
 
   const [rating, setRating] = useState(0)
   const [hoverRating, setHoverRating] = useState(0)
   const [content, setContent] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError] = useState<{ type: 'rating' | 'content' | 'image' | null, message: string }>({ type: null, message: '' })
+  const [images, setImages] = useState<string[]>([])
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
+    setError({ type: null, message: '' })
 
     if (rating === 0) {
-      setError('별점을 선택해주세요')
+      setError({ type: 'rating', message: '별점을 선택해주세요' })
       return
     }
-    if (!content.trim()) {
-      setError('리뷰 내용을 입력해주세요')
+    if (content.trim().length < 20) {
+      setError({ type: 'content', message: '리뷰는 최소 20자 이상 작성해주세요' })
       return
     }
-
-    // onSubmit({
-    //   author: author.trim(),
-    //   rating,
-    //   content: content.trim()
-    // });
+    if (content.trim().length > 50) {
+      setError({ type: 'content', message: '리뷰는 최대 50자까지 작성 가능합니다' })
+      return
+    }
 
     // Save to database
-    const { data, error } = await supabase
-      .from('reviews')
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-      .insert({
-        score: rating,
-        content,
-        post_id: postId,
-      })
+    // const { data, error: supabaseError } = await supabase
+    //   .from('reviews')
+    //   .insert({
+    //     score: rating,
+    //     content: content.trim(),
+    //     post_id: postId,
+    //     images: images,
+    //   })
+    //   .select()
 
-    console.log(data, error)
+    // if (supabaseError) {
+    //   console.error('Supabase error:', supabaseError)
+    //   setError({ type: null, message: `리뷰 등록에 실패했습니다: ${supabaseError.message}` })
+    // }
+    // else {
+    //   console.log('Review submitted successfully:', data)
+    //   // Reset form
+    //   setContent('')
+    //   setRating(0)
+    //   setImages([])
+    //   alert('리뷰가 성공적으로 등록되었습니다.')
+    // }
+    redirect(`/gachas/${postId}`)
+  }
 
-    // Reset form
-    setContent('')
-    setRating(0)
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files) {
+      const newImages = Array.from(files).map(file => URL.createObjectURL(file))
+      if (images.length + newImages.length > 3) {
+        setError({ type: 'image', message: '이미지는 최대 3개까지 업로드 가능합니다' })
+        return
+      }
+      setImages(prev => [...prev, ...newImages])
+      setError({ type: null, message: '' })
+    }
+  }
+
+  const removeImage = (index: number) => {
+    setImages(images.filter((_, i) => i !== index))
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-[400px] rounded-lg bg-white p-6 shadow-md">
-      <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+    <form onSubmit={handleSubmit} className="flex size-full max-w-lg flex-col justify-between rounded-lg bg-white p-4">
+      <div className="border-b-inherit pb-5">
         <Link href={`/gachas/${postId}`}>
-          <Button size="icon" variant="ghost"><ArrowLeft /></Button>
+          <Button size="icon" variant="ghost" className="mb-2">
+            <ArrowLeft size={32} className="size-8" />
+          </Button>
         </Link>
-        리뷰 쓰기
-      </h2>
+        <h2 className="mb-6 text-center text-2xl font-semibold text-gray-900">이번 스프린트는 어떠셨나요?</h2>
 
-      {error && (
-        <div className="mb-4 rounded-md bg-red-50 p-3 text-red-600">
-          {error}
+        <div className="mb-6">
+          <div className="flex justify-center gap-1">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setRating(index + 1)}
+                onMouseEnter={() => setHoverRating(index + 1)}
+                onMouseLeave={() => setHoverRating(0)}
+                className="focus:outline-none"
+              >
+                <div className="flex flex-col items-center justify-center">
+                  <Star
+                    size={50}
+                    className={`${
+                      index < (hoverRating || rating)
+                        ? 'fill-[#FF9E49] text-[#FF9E49]'
+                        : 'text-gray-300'
+                    } transition-colors`}
+                  />
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="grow">
+        <hr />
+        <div className="mb-2 pt-4">
+          <p className="text-md pb-2">리뷰를 작성해주세요</p>
+          <textarea
+            id="content"
+            value={content}
+            onChange={(e) => {
+              const newContent = e.target.value
+              if (newContent.length <= 50) {
+                setContent(newContent)
+                setError({ type: null, message: '' })
+              }
+            }}
+            rows={6}
+            className={`w-full rounded-md border-2 p-4 focus:outline-none focus:ring-2 focus:ring-[#FF9E49] ${
+              error.type === 'content' ? 'border-[#FF9E49] bg-yellow-50' : 'border-[#F1F1F1] bg-[#F1F1F1]'
+            }`}
+            placeholder="20자 이상 50자 이하로 어떤 경험을 했는지 작성해주세요 !"
+          />
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className={`${content.length > 50 ? 'text-red-500' : 'text-gray-500'}`}>
+            {content.length}
+            {' '}
+            / 50자
+          </span>
+        </div>
+
+        <div className="mt-4">
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            사진 첨부 (최대 3장)
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {images.map((image, index) => (
+              <div key={index} className="relative size-24">
+                <Image src={image} alt={`Uploaded image ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
+                <button
+                  type="button"
+                  onClick={() => removeImage(index)}
+                  className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ))}
+            {images.length < 3 && (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="flex size-24 items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600"
+              >
+                +
+              </button>
+            )}
+          </div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImageUpload}
+            accept="image/*"
+            multiple
+            className="hidden"
+          />
+        </div>
+      </div>
+
+      {error.message && (
+        <div className={`my-4 rounded-md p-3 ${
+          error.type === 'rating' ? 'bg-red-50 text-red-600' : 'bg-yellow-50 text-yellow-600'
+        }`}
+        >
+          {error.message}
         </div>
       )}
 
-      {/* <div className="mb-6">
-        <label
-          htmlFor="author"
-          className="mb-1 block text-sm font-medium text-gray-700"
-        >
-          Your Name
-        </label>
-        <input
-          type="text"
-          id="author"
-          value={author}
-          onChange={e => setAuthor(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          placeholder="Enter your name"
-        />
-      </div> */}
-
-      <div className="mb-6">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
-          별점
-        </label>
-        <div className="flex gap-1">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={() => setRating(index + 1)}
-              onMouseEnter={() => setHoverRating(index + 1)}
-              onMouseLeave={() => setHoverRating(0)}
-              className="focus:outline-none"
-            >
-              <Star
-                size={24}
-                className={`${
-                  index < (hoverRating || rating)
-                    ? 'fill-yellow-400 text-yellow-400'
-                    : 'text-gray-300'
-                } transition-colors`}
-              />
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <textarea
-          id="content"
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          rows={6}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          placeholder="어떤 경험을 했는지 써주세요!"
-        />
-      </div>
-
       <Button
         type="submit"
-        className="w-full rounded-md"
+        className="mt-4 w-full rounded-md bg-[#FF9E49] py-2 text-white hover:bg-[#FF7E29] focus:ring-2 focus:ring-[#FF9E49] focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300"
+        // disabled={rating === 0 || content.trim().length < 20 || content.length > 50}
       >
-        확인
+        리뷰 등록하기
       </Button>
     </form>
   )
