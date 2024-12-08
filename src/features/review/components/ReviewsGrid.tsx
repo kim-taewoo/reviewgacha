@@ -3,7 +3,6 @@ import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { Review } from '../types'
 
 import { ResponsiveReviewCards } from './ResponsiveReviewCards'
-import { ReviewCard } from './ReviewCard'
 
 export async function ReviewsGrid() {
   const supabase = await getSupabaseServerClient()
