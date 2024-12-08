@@ -1,16 +1,17 @@
-"use client"
+'use client'
 
-import { Button } from "@/components/ui/button"
-import { Ticket } from "lucide-react"
-import Link from "next/link"
-import { toast } from "sonner"
+import { Ticket } from 'lucide-react'
+import Link from 'next/link'
+import { toast } from 'sonner'
+
+import { Button } from '@/components/ui/button'
 
 interface Props {
   gachasLength: number
   postId: string
 }
 
-export const LinkToGacha = ({gachasLength, postId}: Props) => {
+export const LinkToGacha = ({ gachasLength, postId }: Props) => {
   if (gachasLength > 0) {
     return (
       <Link href={`/gachas/${postId}/gacha`}>
@@ -29,7 +30,8 @@ export const LinkToGacha = ({gachasLength, postId}: Props) => {
   return (
     <Button onClick={() => {
       toast.error('가지고 있는 가챠권이 없습니다! 리뷰를 작성하거나 좋아요를 눌러 가챠권을 얻어보세요!')
-    }}>
+    }}
+    >
       <Ticket className="-rotate-45" />
       {' '}
       가챠 뽑기

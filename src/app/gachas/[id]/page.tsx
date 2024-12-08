@@ -1,11 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Plus, Ticket } from 'lucide-react'
 import Link from 'next/link'
 
 import { Footer } from '@/components/Footer'
 import { Button } from '@/components/ui/button'
+import { LinkToGacha } from '@/features/review/components/LinkToGacha'
 import { ReviewsGrid } from '@/features/review/components/ReviewsGrid'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
-import { LinkToGacha } from '@/features/review/components/LinkToGacha'
 
 type Params = Promise<{ id: string }>
 
@@ -13,6 +14,7 @@ export default async function ReviewsPage({ params }: { params: Params }) {
   const { id } = await params
 
   const supabase = await getSupabaseServerClient()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: sessionData, error: _sessionError } = await supabase.auth.getSession()
   const session = sessionData?.session
   const user = session?.user
