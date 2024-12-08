@@ -7,9 +7,12 @@ import { toast } from 'sonner'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { Review } from '@/features/gacha/types'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 import getDateForm from '@/utils/dateForm'
+
+import { Review } from '../types'
+
+import { ReviewImages } from './ReviewImages'
 
 export function ReviewCard({
   created_at,
@@ -45,7 +48,7 @@ export function ReviewCard({
   const handleLike = async () => {
     if (!userId) return
     if (liked) {
-      toast.error('이미 좋아요를 눌렀음.')
+      toast.error('이미 좋아요를 눌렀습니다 :)')
       return
     }
 
@@ -78,9 +81,13 @@ export function ReviewCard({
           ))}
         </div>
         <p className="text-muted-foreground">
-          {/* This product exceeded my expectations! The quality is outstanding, and it's incredibly easy to use. I would highly recommend it to anyone looking for a reliable solution. */}
           {content}
         </p>
+        {media?.imageUrls?.length && (
+          <div className="mt-3">
+            <ReviewImages imageUrls={media.imageUrls} />
+          </div>
+        )}
       </CardContent>
       <CardFooter>
         <Button variant="ghost" className="gap-2 text-muted-foreground" onClick={() => toast.error('댓글 기능은 아직 구현되지 않았습니다 !')}>
