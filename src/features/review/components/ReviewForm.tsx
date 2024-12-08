@@ -1,10 +1,11 @@
 'use client'
 
-import { Star } from 'lucide-react'
+import { ArrowLeft, Star } from 'lucide-react'
 import React, { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import Link from 'next/link'
 
 export function ReviewForm({ postId }: { postId: string }) {
   const supabase = getSupabaseBrowserClient()
@@ -53,6 +54,9 @@ export function ReviewForm({ postId }: { postId: string }) {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-[400px] rounded-lg bg-white p-6 shadow-md">
       <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+        <Link href={`/gachas/${postId}`}>
+          <Button size="icon" variant={"ghost"}><ArrowLeft /></Button>
+        </Link>
         리뷰 쓰기
       </h2>
 
