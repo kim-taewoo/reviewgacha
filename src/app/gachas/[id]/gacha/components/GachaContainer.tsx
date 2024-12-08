@@ -4,13 +4,15 @@ import { useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
-import { GachaResult } from './GachaResult'
+import { GachaResultModal } from './GachaResultModal'
 
 export const GachaContainer = () => {
   const [result, setResult] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
+
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const onClickGacha = (index: number) => {
@@ -44,11 +46,17 @@ export const GachaContainer = () => {
     }, 3000)
   }
 
+  const resetGacha = () => {
+    setFlippedIndex(null)
+    setResult(null)
+    setIsOpenModal(false)
+    setIsLoading(false)
+  }
+
   return (
     <>
       {/* 카드 목록 */}
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-yellow-200 to-blue-200">
-        {/* 상단 텍스트 */}
+      <div className="flex min-h-screen flex-col items-center justify-center">
         <p className="mb-[72px] text-2xl font-bold text-[#1F2024]">
           한 장의 카드를
           {' '}
@@ -68,13 +76,6 @@ export const GachaContainer = () => {
                   isLoading && 'pointer-events-none opacity-50'
                 )}
               >
-                {/* 로딩 스피너 */}
-                {isLoading && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="size-8 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
-                  </div>
-                )}
-
                 {/* 카드 뒷면 */}
                 <div className="absolute flex cursor-pointer items-center justify-center shadow-md backface-hidden">
                   <Image src="/Card back.png" alt="card image" width={158} height={195} />
@@ -90,11 +91,9 @@ export const GachaContainer = () => {
         </div>
 
         {/* 결과 표시 */}
-        <GachaResult result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} />
+        <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} />
 
       </div>
-      {/* 다른 사람의 결과 */}
-      {/* <GachaAwrad /> */}
     </>
   )
 }
