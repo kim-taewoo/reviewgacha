@@ -123,7 +123,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      count_unique_user_ids: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          username: string
+          gacha_count: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

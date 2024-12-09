@@ -18,7 +18,7 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
   const [isLoading, setIsLoading] = useState(false)
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
   const [isOpenModal, setIsOpenModal] = useState(false)
-  const [isNoGachaOpenModal, setIsNoGachaOpenModal] = useState(false)
+  const [_isNoGachaOpenModal, setIsNoGachaOpenModal] = useState(false)
 
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const { width, height } = useWindowSize()

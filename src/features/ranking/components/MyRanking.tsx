@@ -1,16 +1,13 @@
 import Image from 'next/image'
 
-import { Review } from '@/features/review/types'
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { getRanking } from '../actions'
 
-export const MyRanking = async ({ postId }: { postId: string }) => {
-  const supabase = await getSupabaseServerClient()
-  const { data: reviewsData } = await supabase.from('reviews').select().match({ post_id: postId }).order('created_at', { ascending: false })
+export const MyRanking = async () => {
+  const { data: rankings, error } = await getRanking()
 
-  const reviews = reviewsData ?? [] as Review[]
-
-  // 점수 순으로 정렬 & 50명 제한
-  const sortedRankingData = [...reviews].sort((a, b) => (b.score ?? 0) - (a.score ?? 0)).slice(0, 50)
+  if (error) {
+    alert('랭킹을 불러오는 중 오류가 발생했습니다.')
+  }
 
   return (
     <div>
@@ -19,7 +16,7 @@ export const MyRanking = async ({ postId }: { postId: string }) => {
         <h1 className="text-2xl font-semibold">TOP 50</h1>
       </header>
       <div className="h-[calc(100vh-320px)] w-full space-y-4 overflow-y-scroll p-4">
-        {sortedRankingData.map((data, index) => (
+        {(rankings as { username: string, gacha_count: number }[]).map((user, index) => (
           <div key={`${index}_ranking`} className="flex items-center space-x-4">
             {/* 메달 또는 순위 표시 */}
             {index === 0 && (
@@ -42,9 +39,9 @@ export const MyRanking = async ({ postId }: { postId: string }) => {
 
             {/* 유저 닉네임과 점수 */}
             <div className="flex flex-col">
-              <p className="font-bold text-[#333]">{data.username}</p>
+              <p className="font-bold text-[#333]">{user.username}</p>
               <p className="text-sm text-gray-600">
-                {data.score}
+                {user.gacha_count}
                 {' '}
                 회
               </p>
