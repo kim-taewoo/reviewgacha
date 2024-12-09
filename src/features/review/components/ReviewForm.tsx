@@ -3,38 +3,73 @@
 import { ArrowLeft, Star, X } from 'lucide-react'
 // import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState, useRef } from 'react'
 import { toast } from 'sonner'
 
+import { LoadingCircle } from '@/components/LoadingCircle'
 import { Button } from '@/components/ui/button'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { getRandomHexString } from '@/utils'
 
 export function ReviewForm({ postId }: { postId: string }) {
   const supabase = getSupabaseBrowserClient()
-
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
   const [rating, setRating] = useState(0)
   const [hoverRating, setHoverRating] = useState(0)
   const [content, setContent] = useState('')
   const [error, setError] = useState<{ type: 'rating' | 'content' | 'image' | null, message: string }>({ type: null, message: '' })
   const [fileList, setFileList] = useState<File[]>([])
+  const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError({ type: null, message: '' })
+    setIsLoading(true)
 
     if (rating === 0) {
       setError({ type: 'rating', message: '별점을 선택해주세요' })
+      setIsLoading(false)
       return
     }
     if (content.trim().length < 20) {
       setError({ type: 'content', message: '리뷰는 최소 20자 이상 작성해주세요' })
+      setIsLoading(false)
       return
     }
     if (content.trim().length > 50) {
       setError({ type: 'content', message: '리뷰는 최대 50자까지 작성 가능합니다' })
+      setIsLoading(false)
       return
     }
+
+    const uploadedFiles = fileList.length
+      ? await Promise.all(
+        Array.from(fileList).map(file =>
+          supabase.storage
+            .from('reviews')
+            .upload(
+              [postId, new Date().getTime(), getRandomHexString()].join('/'),
+              file
+            )
+        )
+      )
+      : []
+
+    if (uploadedFiles.some(file => file.error || !file.data)) {
+      toast.error('이미지 업로드 중 오류가 발생했습니다')
+      setIsLoading(false)
+      return
+    }
+
+    const publicUrls = uploadedFiles.map((file) => {
+      const path = file.data?.path
+      if (!path) return ''
+      const publicUrlResponse = supabase.storage.from('reviews').getPublicUrl(path)
+      return publicUrlResponse.data.publicUrl
+    })
 
     // Save to database
     await supabase
@@ -45,11 +80,19 @@ export function ReviewForm({ postId }: { postId: string }) {
         score: rating,
         content,
         post_id: postId,
+        media: {
+          imageUrls: publicUrls,
+        },
       })
 
     // Reset form
     setContent('')
     setRating(0)
+    setIsLoading(false)
+    setFileList([])
+    setImagePreviewUrls([])
+    toast.success('리뷰가 등록되었습니다')
+    router.push(`/gachas/${postId}`)
   }
 
   return (
@@ -120,22 +163,10 @@ export function ReviewForm({ postId }: { postId: string }) {
 
         <div className="mt-4">
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            사진 첨부 (최대 3장)
+            사진 첨부 (최대 4장)
           </label>
           <div className="flex flex-wrap gap-2">
-            {fileList.map((image, index) => (
-              <div key={index} className="relative size-24">
-                {/* <Image src={image} alt={`Uploaded image ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" /> */}
-                <button
-                  type="button"
-                  onClick={() => {}}
-                  className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
-                >
-                  <X size={16} />
-                </button>
-              </div>
-            ))}
-            {fileList.length < 3 && (
+            {fileList.length < 4 && (
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
@@ -144,6 +175,23 @@ export function ReviewForm({ postId }: { postId: string }) {
                 +
               </button>
             )}
+            {imagePreviewUrls.map((imageUrl, index) => {
+              return (
+                <div key={imageUrl} className="relative size-24">
+                  <img src={imageUrl} alt={`Uploaded image ${index + 1}`} className="size-full rounded-md object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFileList(prev => prev.filter((_, i) => i !== index))
+                    }}
+                    className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              )
+            })}
+
           </div>
           <input
             id="file"
@@ -152,11 +200,15 @@ export function ReviewForm({ postId }: { postId: string }) {
             ref={fileInputRef}
             onChange={(e) => {
               const files = [...e.target.files || []]
-              if (files.length > 3) {
+              if (fileList.length + files.length > 4) {
                 toast.error('이미지는 최대 4장까지 첨부 가능합니다')
                 return
               }
-              setFileList(Array.from(e.target.files || []))
+
+              setFileList(prev => [...prev, ...files])
+              setImagePreviewUrls(prev => [...prev, ...files.map(file => URL.createObjectURL(file))])
+
+              if (fileInputRef.current) fileInputRef.current.value = ''
             }}
             accept="image/*"
             multiple
@@ -175,11 +227,20 @@ export function ReviewForm({ postId }: { postId: string }) {
       )}
 
       <Button
+        aria-disabled={isLoading}
+        disabled={isLoading}
         type="submit"
-        className="mt-4 w-full rounded-md bg-[#FF9E49] py-2 text-white hover:bg-[#FF7E29] focus:ring-2 focus:ring-[#FF9E49] focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300"
+        className="mt-4 w-full rounded-md bg-[#FF9E49] py-2 text-white hover:bg-[#FF7E29] focus:ring-2 focus:ring-[#FF9E49] focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
         // disabled={rating === 0 || content.trim().length < 20 || content.length > 50}
       >
-        리뷰 등록하기
+        {isLoading
+          ? (
+              <>
+                <LoadingCircle className="text-gray-500" />
+                리뷰 작성 중...
+              </>
+            )
+          : '리뷰 등록하기'}
       </Button>
     </form>
   )

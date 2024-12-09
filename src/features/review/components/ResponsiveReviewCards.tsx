@@ -31,7 +31,7 @@ export const ResponsiveReviewCards = ({ reviews }: Props) => {
   return (
     <>
       {Array.from({ length: columns }).map((_, i) => (
-        <div key={i} className="grid gap-4">
+        <div key={i} className="relative grid w-full gap-4 overflow-hidden">
           {reviews.slice(i * reviewsEachColumn, (i + 1) * reviewsEachColumn).map(review => (
             <ReviewCard key={review.id} {...review} />
           ))}

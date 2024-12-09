@@ -84,9 +84,11 @@ export function ReviewCard({
             <Star key={i} className="size-5 fill-none" />
           ))}
         </div>
-        <p className="text-muted-foreground">
+        <div className="w-full text-wrap break-words text-muted-foreground">
+          {/* <div className="break-words"> */}
           {content}
-        </p>
+          {/* </div> */}
+        </div>
         {media?.imageUrls?.length && (
           <div className="mt-3">
             <ReviewImages imageUrls={media.imageUrls} />

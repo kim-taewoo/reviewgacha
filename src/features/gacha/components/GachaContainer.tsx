@@ -20,9 +20,6 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
 
   const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
 
-  console.log(unusedGachas)
-  console.log(gachaResult)
-
   const onClickGacha = async (index: number) => {
     if (isLoading) return
 
