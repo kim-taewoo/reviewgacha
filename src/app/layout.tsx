@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    url: DEFAULT_URL,
+    url: 'https://reviewgacha.com',
     siteName: 'REVIEW GACHA',
     title: 'REVIEW GACHA',
     description: '리뷰가챠로 리뷰를 더 즐겁게!',

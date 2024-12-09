@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowLeft, Star, X } from 'lucide-react'
-import Image from 'next/image'
+// import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useRef } from 'react'
 import { toast } from 'sonner'
@@ -125,7 +125,7 @@ export function ReviewForm({ postId }: { postId: string }) {
           <div className="flex flex-wrap gap-2">
             {fileList.map((image, index) => (
               <div key={index} className="relative size-24">
-                <Image src={image} alt={`Uploaded image ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
+                {/* <Image src={image} alt={`Uploaded image ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" /> */}
                 <button
                   type="button"
                   onClick={() => {}}
