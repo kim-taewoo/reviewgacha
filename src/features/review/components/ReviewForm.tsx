@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState, useRef } from 'react'
 import { toast } from 'sonner'
 
+import { revalidatePage } from '@/actions'
 import { LoadingCircle } from '@/components/LoadingCircle'
 import { Button } from '@/components/ui/button'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
@@ -92,6 +93,7 @@ export function ReviewForm({ postId }: { postId: string }) {
     setFileList([])
     setImagePreviewUrls([])
     toast.success('리뷰가 등록되었습니다')
+    revalidatePage(`/gachas/${postId}`)
     router.push(`/gachas/${postId}`)
   }
 
