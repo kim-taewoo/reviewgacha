@@ -1,8 +1,15 @@
 import Image from 'next/image'
+import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { Review } from '@/features/review/types'
 
-export const MyRanking = () => {
+export const MyRanking = async ({ postId }: { postId: string }) => {
+  const supabase = await getSupabaseServerClient()
+  const { data: reviewsData } = await supabase.from('reviews').select().match({ post_id: postId }).order('created_at', { ascending: false })
+
+  const reviews = reviewsData ?? [] as Review[]
+
   // 점수 순으로 정렬 & 50명 제한
-  const sortedRankingData = [...rankingData].sort((a, b) => b.score - a.score).slice(0, 50)
+  const sortedRankingData = [...reviews].sort((a, b) => (b.score ?? 0) - (a.score ?? 0)).slice(0, 50)
 
   return (
     <div>
@@ -34,7 +41,7 @@ export const MyRanking = () => {
 
             {/* 유저 닉네임과 점수 */}
             <div className="flex flex-col">
-              <p className="font-bold text-[#333]">{data.nickname}</p>
+              <p className="font-bold text-[#333]">{data.username}</p>
               <p className="text-sm text-gray-600">
                 {data.score}
                 {' '}
@@ -47,31 +54,3 @@ export const MyRanking = () => {
     </div>
   )
 }
-
-const rankingData = [
-  { score: 120, userImage: '/user1.png', nickname: '짱구' },
-  { score: 110, userImage: '/user2.png', nickname: '블루문' },
-  { score: 105, userImage: '/user3.png', nickname: '스타더스트' },
-  { score: 98, userImage: '/user4.png', nickname: '하이퍼' },
-  { score: 95, userImage: '/user5.png', nickname: '드림캐처' },
-  { score: 92, userImage: '/user6.png', nickname: '루나틱' },
-  { score: 90, userImage: '/user7.png', nickname: '윈드밀' },
-  { score: 88, userImage: '/user8.png', nickname: '코스모스' },
-  { score: 85, userImage: '/user9.png', nickname: '디바인' },
-  { score: 83, userImage: '/user10.png', nickname: '레이저' },
-  { score: 80, userImage: '/user11.png', nickname: '썬더볼트' },
-  { score: 78, userImage: '/user12.png', nickname: '버블티' },
-  { score: 75, userImage: '/user13.png', nickname: '초코칩' },
-  { score: 72, userImage: '/user14.png', nickname: '실버문' },
-  { score: 70, userImage: '/user15.png', nickname: '골드스타' },
-  { score: 68, userImage: '/user16.png', nickname: '로열티' },
-  { score: 65, userImage: '/user17.png', nickname: '아이리스' },
-  { score: 62, userImage: '/user18.png', nickname: '베이컨' },
-  { score: 60, userImage: '/user19.png', nickname: '판다' },
-  { score: 58, userImage: '/user20.png', nickname: '호크아이' },
-  ...Array.from({ length: 40 }, (_, i) => ({
-    score: 57 - i,
-    userImage: `/user${21 + i}.png`,
-    nickname: `유저${21 + i}`,
-  })),
-]

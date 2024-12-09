@@ -44,9 +44,9 @@ const RankingPage = async ({ params }: { params: Params }) => {
             <TabsTrigger value="myGacha">내 가챠</TabsTrigger>
             <TabsTrigger value="myRanking">랭킹</TabsTrigger>
           </TabsList>
-          <TabsContent value="myGacha">myGacha</TabsContent>
+          <TabsContent value="myGacha"><MyGacha/></TabsContent>
           <TabsContent value="myRanking">
-            <MyRanking />
+            <MyRanking postId={id} />
           </TabsContent>
         </Tabs>
       </div>
