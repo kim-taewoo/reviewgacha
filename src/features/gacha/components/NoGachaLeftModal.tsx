@@ -12,14 +12,25 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
-export const NoGachaLeftModal = () => {
-  // const { width, height } = useWindowSize()
+interface Props {
+  setIsNoGachaOpenModal: (isOpen: boolean) => void
+}
+
+export const NoGachaLeftModal = ({ setIsNoGachaOpenModal }: Props) => {
 
   const navigate = useRouter()
   const param = useParams()
 
   return (
-    <Dialog open={true}>
+    <Dialog
+      open={true}
+      onOpenChange={(isOpen) => {
+        setIsNoGachaOpenModal(isOpen)
+        if (!isOpen) {
+          navigate.push(`/gachas/${param.id}`)
+        }
+      }}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>남은 가챠권이 없습니다!</DialogTitle>
@@ -28,7 +39,12 @@ export const NoGachaLeftModal = () => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button onClick={() => navigate.push(`/gachas/${param.id}`)}>돌아가기</Button>
+          <Button onClick={() => {
+             setIsNoGachaOpenModal(false)
+              navigate.push(`/gachas/${param.id}`)
+            }}>
+            돌아가기
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
