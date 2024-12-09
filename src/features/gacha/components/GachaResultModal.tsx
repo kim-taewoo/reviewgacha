@@ -12,6 +12,8 @@ import {
 } from '@/components/ui/dialog'
 
 import { Gacha } from '../types'
+import { useParams, useRouter } from 'next/navigation'
+import { DEFAULT_URL } from '@/constatns'
 
 interface Props {
   result: string | null
@@ -23,6 +25,9 @@ interface Props {
 }
 
 export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha, image_url, unusedGachas }: Props) => {
+  const navigate = useRouter()
+  const param = useParams()
+
   return (
     <>
       <Dialog
@@ -65,8 +70,12 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
                   type="button"
                   variant="secondary"
                   onClick={() => {
-                    // navigate.push(`${DEFAULT_URL}/gachas/${param.id}`)
-                    resetGacha()
+                    if (unusedGachas?.length === 0) {
+                      resetGacha();
+                    } else {
+                      navigate.push(`${DEFAULT_URL}/gachas/${param.id}`);
+                      resetGacha();
+                    }
                   }}
                   className="w-full border-2"
                 >
