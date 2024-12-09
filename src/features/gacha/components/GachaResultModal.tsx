@@ -74,7 +74,7 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
                       resetGacha()
                     }
                     else {
-                      navigate.push(`${DEFAULT_URL}/gachas/${param.id}`)
+                      navigate.push(`https://www.reviewgacha.com/gachas/${param.id}`)
                       resetGacha()
                     }
                   }}
