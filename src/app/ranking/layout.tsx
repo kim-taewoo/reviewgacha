@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function RankingLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode,
+  children: React.ReactNode
 }>) {
   return (
     <>

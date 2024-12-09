@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import { revalidatePage } from '@/actions'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
@@ -84,12 +83,14 @@ export function ReviewCard({
             <Star key={i} className="size-5 fill-none" />
           ))}
         </div>
-        <p className="text-muted-foreground">
+        <div className="w-full text-wrap break-words text-muted-foreground">
+          {/* <div className="break-words"> */}
           {content}
-        </p>
-        {media?.imageUrls?.length && (
+          {/* </div> */}
+        </div>
+        {(media?.imageUrls?.length ?? 0) > 0 && (
           <div className="mt-3">
-            <ReviewImages imageUrls={media.imageUrls} />
+            <ReviewImages imageUrls={media.imageUrls ?? []} />
           </div>
         )}
       </CardContent>

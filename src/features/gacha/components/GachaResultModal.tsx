@@ -55,11 +55,6 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
             <DialogContent
               className="flex flex-col items-center gap-8 rounded-lg p-6 shadow-lg sm:max-w-[335px]"
             >
-              {/* <Confetti
-                width={width}
-                height={height}
-                className="absolute inset-0 z-10"
-              /> */}
               <DialogTitle className="flex items-center justify-center text-2xl font-bold text-[#1F2024]">
                 축하합니다!
               </DialogTitle>
