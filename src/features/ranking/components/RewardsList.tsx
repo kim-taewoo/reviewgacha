@@ -34,7 +34,7 @@ export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
   }
 
   return (
-    <div>
+    <div className="mb-20">
       <div className="my-5 flex gap-2">
         {TAB_BUTTON.map(tab => (
           <button
