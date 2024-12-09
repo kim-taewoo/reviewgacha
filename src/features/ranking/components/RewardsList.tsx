@@ -96,7 +96,7 @@ export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
                 width={0}
                 height={0}
                 sizes="100%"
-                style={{width:'100%', height:'auto'}}
+                style={{ width: '100%', height: 'auto' }}
                 className={`${isActive ? 'transition-transform duration-300 ease-in-out hover:scale-105' : 'grayscale'} rounded-md`}
               />
             </div>
