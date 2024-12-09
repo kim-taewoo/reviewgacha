@@ -4,8 +4,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { GachaContainer } from '@/features/gacha/components/GachaContainer'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
-import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
 
 const GachaPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const supabase = await getSupabaseServerClient()
