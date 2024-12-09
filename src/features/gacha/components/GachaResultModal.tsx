@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { useParams, useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -10,10 +11,9 @@ import {
   DialogFooter,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { DEFAULT_URL } from '@/constatns'
 
 import { Gacha } from '../types'
-import { useParams, useRouter } from 'next/navigation'
-import { DEFAULT_URL } from '@/constatns'
 
 interface Props {
   result: string | null
@@ -71,10 +71,11 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
                   variant="secondary"
                   onClick={() => {
                     if (unusedGachas?.length === 0) {
-                      resetGacha();
-                    } else {
-                      navigate.push(`${DEFAULT_URL}/gachas/${param.id}`);
-                      resetGacha();
+                      resetGacha()
+                    }
+                    else {
+                      navigate.push(`${DEFAULT_URL}/gachas/${param.id}`)
+                      resetGacha()
                     }
                   }}
                   className="w-full border-2"
