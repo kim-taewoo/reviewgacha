@@ -4,6 +4,7 @@ import { ArrowLeft, Star, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useRef } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
@@ -15,7 +16,7 @@ export function ReviewForm({ postId }: { postId: string }) {
   const [hoverRating, setHoverRating] = useState(0)
   const [content, setContent] = useState('')
   const [error, setError] = useState<{ type: 'rating' | 'content' | 'image' | null, message: string }>({ type: null, message: '' })
-  const [images] = useState<string[]>([])
+  const [fileList, setFileList] = useState<File[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -122,7 +123,7 @@ export function ReviewForm({ postId }: { postId: string }) {
             사진 첨부 (최대 3장)
           </label>
           <div className="flex flex-wrap gap-2">
-            {images.map((image, index) => (
+            {fileList.map((image, index) => (
               <div key={index} className="relative size-24">
                 <Image src={image} alt={`Uploaded image ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
                 <button
@@ -134,7 +135,7 @@ export function ReviewForm({ postId }: { postId: string }) {
                 </button>
               </div>
             ))}
-            {images.length < 3 && (
+            {fileList.length < 3 && (
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
@@ -145,9 +146,18 @@ export function ReviewForm({ postId }: { postId: string }) {
             )}
           </div>
           <input
+            id="file"
             type="file"
+            name="file"
             ref={fileInputRef}
-            onChange={() => {}}
+            onChange={(e) => {
+              const files = [...e.target.files || []]
+              if (files.length > 3) {
+                toast.error('이미지는 최대 4장까지 첨부 가능합니다')
+                return
+              }
+              setFileList(Array.from(e.target.files || []))
+            }}
             accept="image/*"
             multiple
             className="hidden"
