@@ -15,17 +15,18 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { DEFAULT_URL } from '@/constatns'
+import { Gacha } from '../types'
 
 interface Props {
   result: string | null
   isOpenModal: boolean
   setIsOpenModal: Dispatch<SetStateAction<boolean>>
   resetGacha: () => void
-  ticketCount: number
+  unusedGachas: Gacha[]
   image_url: string
 }
 
-export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha, ticketCount, image_url }: Props) => {
+export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha, unusedGachas, image_url }: Props) => {
   // const { width, height } = useWindowSize()
 
   const navigate = useRouter()
@@ -65,7 +66,7 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
               </div>
               <DialogFooter className="flex w-full gap-4">
                 {
-                  ticketCount > 0 && (
+                  unusedGachas?.length === 0 && !result && (
                     <Button
                       type="button"
                       onClick={() => {

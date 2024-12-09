@@ -25,7 +25,7 @@ const GachaPage = async ({ params }: { params: Params }) => {
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-yellow-200 to-blue-200">
-      <GachaContainer ticketCount={notUsedGachas.length} postId={id} userId={user.id} />
+      <GachaContainer postId={id} userId={user.id} />
     </div>
   )
 }

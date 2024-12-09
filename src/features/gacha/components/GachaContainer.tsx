@@ -106,12 +106,12 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
           ))}
         </div>
 
-        {unusedGachas.length === 0 && !result && (
+        {unusedGachas?.length === 0 && !result && (
           <NoGachaLeftModal />
         )}
 
         {/* 결과 표시 */}
-        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url} /> }
+        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url} unusedGachas={unusedGachas} /> }
       </div>
     </>
   )
