@@ -1,6 +1,7 @@
 import Image from 'next/image'
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+
 import { Review } from '@/features/review/types'
+import { getSupabaseServerClient } from '@/lib/supabase/server'
 
 export const MyRanking = async ({ postId }: { postId: string }) => {
   const supabase = await getSupabaseServerClient()

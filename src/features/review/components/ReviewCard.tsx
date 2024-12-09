@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import { revalidatePage } from '@/actions'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { getSupabaseBrowserClient } from '@/lib/supabase/client'
