@@ -66,10 +66,10 @@ export function ReviewCard({
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="flex flex-row items-center gap-4">
-        <Avatar>
+        {/* <Avatar>
           <AvatarImage src="/placeholder.svg?height=40&width=40" alt="User avatar" />
           <AvatarFallback>:)</AvatarFallback>
-        </Avatar>
+        </Avatar> */}
         <div>
           <h3 className="text-lg font-semibold">{username}</h3>
           <div className="text-xs text-gray-400">{getDateForm(created_at)}</div>

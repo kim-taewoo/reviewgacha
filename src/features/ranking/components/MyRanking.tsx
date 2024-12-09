@@ -35,9 +35,9 @@ export const MyRanking = async ({ postId }: { postId: string }) => {
             )}
 
             {/* 유저 프로필 이미지 */}
-            <div className="size-10 overflow-hidden rounded-full bg-slate-100">
-              {/* <Image src={data.userImage} alt={`${data.nickname} profile`} width={40} height={40} /> */}
-            </div>
+            {/* <div className="size-10 overflow-hidden rounded-full">
+              <Image src={'/People.png'} alt={`user profile`} width={40} height={40} />
+            </div> */}
 
             {/* 유저 닉네임과 점수 */}
             <div className="flex flex-col">
