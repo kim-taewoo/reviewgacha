@@ -93,9 +93,6 @@ export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
               <Image
                 src={reward.image_url}
                 alt={reward.reward_name}
-                // width={108}
-                // height={152}
-                // fill
                 width={0}
                 height={0}
                 sizes="100%"
