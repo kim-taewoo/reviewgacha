@@ -28,5 +28,5 @@
 ### 🎥 프로젝트 데모
 
 #### 데모 영상
-![프로젝트 데모](/reviewgacha01.gif)
-![프로젝트 데모](/reviewgacha02.gif)
+![프로젝트 데모](./public/reviewgacha01.gif)
+![프로젝트 데모](./public/reviewgacha02.gif)
