@@ -39,8 +39,8 @@ export function ReviewForm({ postId }: { postId: string }) {
       setIsLoading(false)
       return
     }
-    if (content.trim().length > 50) {
-      setError({ type: 'content', message: '리뷰는 최대 50자까지 작성 가능합니다' })
+    if (content.trim().length > 300) {
+      setError({ type: 'content', message: '리뷰는 최대 300자까지 작성 가능합니다' })
       setIsLoading(false)
       return
     }
@@ -141,7 +141,7 @@ export function ReviewForm({ postId }: { postId: string }) {
             value={content}
             onChange={(e) => {
               const newContent = e.target.value
-              if (newContent.length <= 50) {
+              if (newContent.length <= 300) {
                 setContent(newContent)
                 setError({ type: null, message: '' })
               }
@@ -150,14 +150,14 @@ export function ReviewForm({ postId }: { postId: string }) {
             className={`w-full rounded-md border-2 p-4 focus:outline-none focus:ring-2 focus:ring-[#FF9E49] ${
               error.type === 'content' ? 'border-[#FF9E49] bg-yellow-50' : 'border-[#F1F1F1] bg-[#F1F1F1]'
             }`}
-            placeholder="20자 이상 50자 이하로 어떤 경험을 했는지 작성해주세요 !"
+            placeholder="20자 이상 300자 이하로 어떤 경험을 했는지 작성해주세요 !"
           />
         </div>
         <div className="flex justify-between text-sm">
-          <span className={`${content.length > 50 ? 'text-red-500' : 'text-gray-500'}`}>
+          <span className={`${content.length > 300 ? 'text-red-500' : 'text-gray-500'}`}>
             {content.length}
             {' '}
-            / 50자
+            / 300자
           </span>
         </div>
 
