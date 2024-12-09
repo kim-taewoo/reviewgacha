@@ -20,9 +20,6 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
 
   const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
 
-  console.log(unusedGachas)
-  console.log(gachaResult)
-
   const onClickGacha = async (index: number) => {
     if (isLoading) return
 
@@ -111,7 +108,7 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
         )}
 
         {/* 결과 표시 */}
-        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url} /> }
+        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url} unusedGachas={unusedGachas} /> }
       </div>
     </>
   )
