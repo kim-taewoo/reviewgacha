@@ -8,6 +8,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs'
+import { MyGacha } from '@/features/ranking/components/MyGacha'
 import { MyRanking } from '@/features/ranking/components/MyRanking'
 
 type Params = Promise<{ id: string }>
