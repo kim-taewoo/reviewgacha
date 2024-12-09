@@ -87,15 +87,17 @@ export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
           return (
             <div
               key={reward.reward_id}
-              className={`overflow-hidden rounded-md ${isActive ? 'cursor-pointer' : 'cursor-default'}`}
+              className={`overflow-hidden ${isActive ? 'cursor-pointer' : 'cursor-default'} justify-self-center`}
               onClick={() => handleRewardClick(reward)}
             >
               <Image
                 src={reward.image_url}
                 alt={reward.reward_name}
-                width={108}
-                height={152}
-                className={isActive ? 'transition-transform duration-300 ease-in-out hover:scale-105' : 'grayscale'}
+                width={0}
+                height={0}
+                sizes="100%"
+                style={{width:'100%', height:'auto'}}
+                className={`${isActive ? 'transition-transform duration-300 ease-in-out hover:scale-105' : 'grayscale'} rounded-md`}
               />
             </div>
           )
