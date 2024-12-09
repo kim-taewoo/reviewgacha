@@ -17,7 +17,6 @@ interface Props {
 }
 
 export const NoGachaLeftModal = ({ setIsNoGachaOpenModal }: Props) => {
-
   const navigate = useRouter()
   const param = useParams()
 
@@ -40,9 +39,10 @@ export const NoGachaLeftModal = ({ setIsNoGachaOpenModal }: Props) => {
         </DialogHeader>
         <DialogFooter>
           <Button onClick={() => {
-             setIsNoGachaOpenModal(false)
-              navigate.push(`/gachas/${param.id}`)
-            }}>
+            setIsNoGachaOpenModal(false)
+            navigate.push(`/gachas/${param.id}`)
+          }}
+          >
             돌아가기
           </Button>
         </DialogFooter>
