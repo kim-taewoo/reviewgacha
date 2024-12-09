@@ -1,6 +1,6 @@
 'use client'
 
-import { Pencil, Gift, Award } from 'lucide-react'
+import { Gift, Award, MessageSquareText } from 'lucide-react'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -16,7 +16,7 @@ export function Footer({}: Props) {
   const footerData = [
     {
       label: '리뷰 작성하기',
-      icon: Pencil,
+      icon: MessageSquareText,
       path: `/gachas/${param.id}/new`,
     },
     {
@@ -38,7 +38,7 @@ export function Footer({}: Props) {
           <Button
             key={index}
             className={`flex-1 flex-col items-center justify-center rounded-none bg-white py-2 text-sm font-medium transition-colors hover:bg-white ${
-              pathname === path ? 'text-[#FF9E49]' : 'text-gray-800'
+              pathname === path ? 'text-[#FF9E49]' : 'text-neutral-500'
             }`}
             onClick={() => router.push(path)}
           >
