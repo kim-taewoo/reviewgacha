@@ -89,9 +89,9 @@ export function ReviewCard({
           {content}
           {/* </div> */}
         </div>
-        {media?.imageUrls?.length && (
+        {(media?.imageUrls?.length ?? 0) > 0 && (
           <div className="mt-3">
-            <ReviewImages imageUrls={media.imageUrls} />
+            <ReviewImages imageUrls={media.imageUrls ?? []} />
           </div>
         )}
       </CardContent>
