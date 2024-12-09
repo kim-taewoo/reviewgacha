@@ -28,5 +28,7 @@
 ### 🎥 프로젝트 데모
 
 #### 데모 영상
-![프로젝트 데모](./public/reviewgacha01.gif)
-![프로젝트 데모](./public/reviewgacha02.gif)
+<div style="display: flex; gap: 16px; justify-content: center; align-items: center;">
+<!--   <img src="./public/reviewgacha01.gif" alt="프로젝트 데모 1" style="width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" />-->
+  <img src="./public/reviewgacha02.gif" alt="프로젝트 데모 2" style="width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" /> 
+</div>
