@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -24,6 +25,13 @@ export default function RegisterForm() {
       router.push(redirect_uri || '/')
     }
   }, [updatedUsername, redirect_uri, router])
+
+  useEffect(() => {
+    if (result?.error) {
+      toast.error(result?.error ?? '에러가 발생했습니다 ㅠ')
+    }
+  }, [result?.error])
+
   return (
     <form className="flex flex-col gap-3" action={dispatchAction}>
       <Input name="username" type="text" placeholder="ex) 테오, 솔싹, 체다, 모승" />

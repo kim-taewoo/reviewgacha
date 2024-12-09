@@ -7,6 +7,9 @@ export const updateUsernameAction = async (
   formData: FormData
 ) => {
   const username = formData.get('username') as string
+  if (!username.trim()) {
+    return { error: '닉네임을 입력해주세요', data: null }
+  }
   const supabase = await getSupabaseServerClient()
 
   const { error } = await supabase.auth.updateUser({
