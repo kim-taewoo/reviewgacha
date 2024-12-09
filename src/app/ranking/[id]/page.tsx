@@ -4,6 +4,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs'
+import { MyGacha } from '@/features/ranking/components/MyGacha'
 import { MyRanking } from '@/features/ranking/components/MyRanking'
 
 const RankingPage = () => {
@@ -14,7 +15,7 @@ const RankingPage = () => {
         <TabsTrigger value="myRanking">랭킹</TabsTrigger>
       </TabsList>
       <TabsContent value="myGacha">
-        myGacha
+        <MyGacha />
       </TabsContent>
       <TabsContent value="myRanking">
         <MyRanking />
