@@ -10,29 +10,32 @@ interface Props {
   myRewardsIds: (number | null)[]
 }
 
-const TAB_BUTTON: { value: 'all' | 'fairy' | 'normal', text: string }[] = [
+const TAB_BUTTON: { value: 'all' | 'special' | 'fairy' | 'normal', text: string }[] = [
   { value: 'all', text: '전체' },
+  { value: 'special', text: '스페셜' },
   { value: 'fairy', text: '히든' },
   { value: 'normal', text: '기본' },
 ]
 
 export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
-  const [activeTab, setActiveTab] = useState<'all' | 'fairy' | 'normal'>('all')
+  const [activeTab, setActiveTab] = useState<'all' | 'special' | 'fairy' | 'normal'>('all')
 
   const getRewardsList = () => {
     switch (activeTab) {
+      case 'special':
+        return rewardsList.special
       case 'fairy':
         return rewardsList.fairy
       case 'normal':
         return rewardsList.normal
       default:
-        return [...rewardsList.fairy, ...rewardsList.normal]
+        return [...rewardsList.special, ...rewardsList.fairy, ...rewardsList.normal]
     }
   }
 
   return (
     <div>
-      <div className="my-5 flex gap-3">
+      <div className="my-5 flex gap-2">
         {TAB_BUTTON.map(tab => (
           <button
             key={tab.value}
