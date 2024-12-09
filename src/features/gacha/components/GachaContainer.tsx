@@ -1,6 +1,8 @@
 'use client'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
+import Confetti from 'react-confetti'
+import { useWindowSize } from 'usehooks-ts'
 
 import { revalidatePage } from '@/actions'
 import { cn } from '@/lib/utils'
@@ -17,6 +19,7 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
   const [isOpenModal, setIsOpenModal] = useState(false)
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const { width, height } = useWindowSize()
 
   const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
 
@@ -69,6 +72,7 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
   return (
     <>
       {/* 카드 목록 */}
+
       <div className="flex min-h-screen flex-col items-center justify-center">
         <p className="mb-[72px] text-2xl font-bold text-[#1F2024]">
           한 장의 카드를
@@ -110,6 +114,14 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
         {/* 결과 표시 */}
         { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url} /> }
       </div>
+      {gachaResult && result && (
+        <Confetti
+          width={width}
+          height={height}
+          style={{ zIndex: 60 }}
+          className="absolute inset-0 z-[60]"
+        />
+      )}
     </>
   )
 }
