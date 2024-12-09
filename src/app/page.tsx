@@ -1,8 +1,17 @@
+'use client'
+
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 
 export default function Home() {
+  const router = useRouter()
+
+  const handleStart = () => {
+    router.push('/gachas/1')
+  }
+
   return (
     <div className="relative h-screen w-full overflow-hidden bg-[#f8f9ff]">
       {/* 이미지 배경 */}
@@ -32,6 +41,7 @@ export default function Home() {
 
         {/* 버튼 영역 */}
         <Button
+          onClick={handleStart}
           className="mx-auto h-[46px] w-full max-w-[335px] rounded-[8px] bg-[#FF9E49] py-4 text-base text-white hover:bg-[#FFD849] sm:py-6 sm:text-lg"
         >
           시작하기
