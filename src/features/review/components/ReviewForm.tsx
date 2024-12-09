@@ -185,6 +185,7 @@ export function ReviewForm({ postId }: { postId: string }) {
                     type="button"
                     onClick={() => {
                       setFileList(prev => prev.filter((_, i) => i !== index))
+                      setImagePreviewUrls(prev => prev.filter((_, i) => i !== index))
                     }}
                     className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
                   >
