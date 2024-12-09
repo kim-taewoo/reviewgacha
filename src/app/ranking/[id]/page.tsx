@@ -45,7 +45,7 @@ const RankingPage = async ({ params }: { params: Params }) => {
           </TabsList>
           <TabsContent value="myGacha"><MyGacha /></TabsContent>
           <TabsContent value="myRanking">
-            <MyRanking postId={id} />
+            <MyRanking />
           </TabsContent>
         </Tabs>
       </div>

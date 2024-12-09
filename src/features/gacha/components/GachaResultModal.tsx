@@ -1,10 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useParams, useRouter } from 'next/navigation'
-import { Dispatch, SetStateAction, useEffect } from 'react'
-
-// import Confetti from 'react-confetti'
-// import { useWindowSize } from 'usehooks-ts'
+import { Dispatch, SetStateAction } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -14,7 +10,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { DEFAULT_URL } from '@/constatns'
+
 import { Gacha } from '../types'
 
 interface Props {
@@ -23,22 +19,10 @@ interface Props {
   setIsOpenModal: Dispatch<SetStateAction<boolean>>
   resetGacha: () => void
   image_url: string
-  unusedGachas:  Gacha[]
+  unusedGachas: Gacha[]
 }
 
-export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha, image_url,unusedGachas }: Props) => {
-  // const { width, height } = useWindowSize()
-
-  const navigate = useRouter()
-  const param = useParams()
-
-  useEffect(() => {
-    if (unusedGachas?.length === 0) {
-      console.log('더 이상 사용 가능한 가챠가 없습니다.');
-    }
-  }, [unusedGachas]);
-
-
+export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGacha, image_url, unusedGachas }: Props) => {
   return (
     <>
       <Dialog
