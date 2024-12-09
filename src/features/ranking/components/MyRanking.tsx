@@ -10,7 +10,7 @@ export const MyRanking = () => {
         <h5 className="text-sm font-normal text-[#71727A]">가챠권을 가장 많이 획득한</h5>
         <h1 className="text-2xl font-semibold">TOP 50</h1>
       </header>
-      <div className="h-[calc(100vh-280px)] w-full space-y-4 overflow-y-scroll p-4">
+      <div className="h-[calc(100vh-320px)] w-full space-y-4 overflow-y-scroll p-4">
         {sortedRankingData.map((data, index) => (
           <div key={`${index}_ranking`} className="flex items-center space-x-4">
             {/* 메달 또는 순위 표시 */}
