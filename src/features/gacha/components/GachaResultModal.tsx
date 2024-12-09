@@ -1,10 +1,10 @@
 'use client'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
+import { Dispatch, SetStateAction } from 'react'
+
 // import Confetti from 'react-confetti'
 // import { useWindowSize } from 'usehooks-ts'
-
-import { Dispatch, SetStateAction } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -14,6 +14,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { DEFAULT_URL } from '@/constatns'
 
 interface Props {
   result: string | null
@@ -32,13 +33,18 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
 
   return (
     <>
-      <Dialog open={isOpenModal} onOpenChange={setIsOpenModal}>
+      <Dialog
+        open={isOpenModal}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) {
+            resetGacha()
+          }
+          setIsOpenModal(isOpen)
+        }}
+      >
         {result && (
           <>
             <DialogContent
-              onClick={() => {
-                resetGacha()
-              }}
               className="flex flex-col items-center gap-8 rounded-lg p-6 shadow-lg sm:max-w-[335px]"
             >
               {/* <Confetti
@@ -76,8 +82,7 @@ export const GachaResultModal = ({ result, isOpenModal, setIsOpenModal, resetGac
                   type="button"
                   variant="secondary"
                   onClick={() => {
-                    // 배포되면 url 수정하기
-                    navigate.push(`http://localhost:3000/gachas/${param.id}`)
+                    navigate.push(`${DEFAULT_URL}/gachas/${param.id}`)
                     resetGacha()
                   }}
                   className="w-full border-2"

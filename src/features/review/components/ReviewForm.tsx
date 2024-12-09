@@ -3,20 +3,19 @@
 import { ArrowLeft, Star, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import React, { useState, useRef } from 'react'
 
 import { Button } from '@/components/ui/button'
-// import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 
 export function ReviewForm({ postId }: { postId: string }) {
-  // const supabase = getSupabaseBrowserClient()
+  const supabase = getSupabaseBrowserClient()
 
   const [rating, setRating] = useState(0)
   const [hoverRating, setHoverRating] = useState(0)
   const [content, setContent] = useState('')
   const [error, setError] = useState<{ type: 'rating' | 'content' | 'image' | null, message: string }>({ type: null, message: '' })
-  const [images, setImages] = useState<string[]>([])
+  const [images] = useState<string[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,7 +36,7 @@ export function ReviewForm({ postId }: { postId: string }) {
     }
 
     // Save to database
-    const { data, error } = await supabase
+    await supabase
       .from('reviews')
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -46,7 +45,6 @@ export function ReviewForm({ postId }: { postId: string }) {
         content,
         post_id: postId,
       })
-
 
     // Reset form
     setContent('')
@@ -93,7 +91,7 @@ export function ReviewForm({ postId }: { postId: string }) {
       <div className="grow">
         <hr />
         <div className="mb-2 pt-4">
-          <p className="text-md pb-2">리뷰를 작성해주세요</p>
+          <p className="pb-2 text-base">리뷰를 작성해주세요</p>
           <textarea
             id="content"
             value={content}
@@ -129,7 +127,7 @@ export function ReviewForm({ postId }: { postId: string }) {
                 <Image src={image} alt={`Uploaded image ${index + 1}`} layout="fill" objectFit="cover" className="rounded-md" />
                 <button
                   type="button"
-                  onClick={() => removeImage(index)}
+                  onClick={() => {}}
                   className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white"
                 >
                   <X size={16} />
@@ -149,7 +147,7 @@ export function ReviewForm({ postId }: { postId: string }) {
           <input
             type="file"
             ref={fileInputRef}
-            onChange={handleImageUpload}
+            onChange={() => {}}
             accept="image/*"
             multiple
             className="hidden"

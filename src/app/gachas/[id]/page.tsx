@@ -26,10 +26,16 @@ export default async function ReviewsPage({ params }: { params: Params }) {
 
   return (
     <>
-      <Header ticketCount={notUsedGachas.length} />
-      <h1 className="my-5 text-center text-3xl font-bold">테오의 스프린트</h1>
-      <div className="mb-32 w-full p-5">
-        <ReviewsGrid postId={id} />
+      <Header ticketCount={notUsedGachas.length} postId={id} />
+      <div className="mb-14 flex w-full max-w-4xl flex-col gap-6 px-5 py-6">
+        <h1 className="w-full text-xl font-semibold">
+          테오 스프린트 후기를
+          <br />
+          확인해 보세요!
+        </h1>
+        <div className="mb-28 w-full">
+          <ReviewsGrid postId={id} />
+        </div>
       </div>
       <Footer />
     </>

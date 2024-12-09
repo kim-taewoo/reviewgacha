@@ -2,14 +2,16 @@
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 
+import { revalidatePage } from '@/actions'
 import { cn } from '@/lib/utils'
 
+import { Gacha } from '../types'
+import { getGachaResult, updateRewardId, type GachaResult } from '../utils/getGachaResult'
+
 import { GachaResultModal } from './GachaResultModal'
-import { getGachaResult, type GachaResult } from '../utils/getGachaResult'
+import { NoGachaLeftModal } from './NoGachaLeftModal'
 
-type Params = { ticketCount: number }
-
-export const GachaContainer = ({ ticketCount }: Params) => {
+export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[], postId: string }) => {
   const [result, setResult] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
@@ -17,6 +19,9 @@ export const GachaContainer = ({ ticketCount }: Params) => {
   const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const [gachaResult, setGachaResult] = useState<GachaResult | null>(null)
+
+  console.log(unusedGachas)
+  console.log(gachaResult)
 
   const onClickGacha = async (index: number) => {
     if (isLoading) return
@@ -32,7 +37,7 @@ export const GachaContainer = ({ ticketCount }: Params) => {
 
     const randomIndex = Math.floor(Math.random() * response.length)
     setGachaResult(response[randomIndex])
-
+    await updateRewardId(unusedGachas[0].id, response[randomIndex].reward_id)
     let flipState = true
     flipIntervalRef.current = setInterval(() => {
       flipState = !flipState
@@ -52,6 +57,8 @@ export const GachaContainer = ({ ticketCount }: Params) => {
 
     setTimeout(() => {
       setIsOpenModal(true)
+
+      revalidatePage(`/gachas/${postId}/gacha`)
     }, 3000)
   }
 
@@ -99,17 +106,12 @@ export const GachaContainer = ({ ticketCount }: Params) => {
           ))}
         </div>
 
-        {/* 결과 표시 */}
-        {gachaResult && (
-          <GachaResultModal
-            result={result}
-            isOpenModal={isOpenModal}
-            setIsOpenModal={setIsOpenModal}
-            resetGacha={resetGacha}
-            ticketCount={ticketCount}
-            image_url={gachaResult.image_url}
-          />
+        {unusedGachas.length === 0 && !result && (
+          <NoGachaLeftModal />
         )}
+
+        {/* 결과 표시 */}
+        { gachaResult && <GachaResultModal result={result} isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} resetGacha={resetGacha} image_url={gachaResult.image_url} /> }
       </div>
     </>
   )
