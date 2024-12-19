@@ -1,11 +1,11 @@
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { getSupabaseBrowserClient } from '@/lib/supabase/client'
 
 import { Review } from '../types'
 
 import { ResponsiveReviewCards } from './ResponsiveReviewCards'
 
 export async function ReviewsGrid({ postId }: { postId: string }) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = getSupabaseBrowserClient()
   const { data: reviewsData } = await supabase.from('reviews').select().match({ post_id: postId }).order('created_at', { ascending: false })
 
   const reviews = reviewsData ?? [] as Review[]
