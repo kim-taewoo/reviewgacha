@@ -1,6 +1,6 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from "next/server"
 
-import { getSupabaseReqResClient } from '@/lib/supabase/middleware'
+import { getSupabaseReqResClient } from "@/lib/supabase/middleware"
 
 export async function middleware(request: NextRequest) {
   const { supabase, response } = getSupabaseReqResClient(request)
@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const requestedPath = request.nextUrl.pathname
-  if (session && !session.user.user_metadata?.username && requestedPath !== '/register') {
+  if (session && !session.user.user_metadata?.username && requestedPath !== "/register") {
     return NextResponse.redirect(new URL(`/register?redirect_uri=${requestedPath}${request.nextUrl.search}`, request.url))
   }
 
@@ -33,6 +33,6 @@ export const config = {
      * - images - .svg, .png, .jpg, .jpeg, .gif, .webp
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 }

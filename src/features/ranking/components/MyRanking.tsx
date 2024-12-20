@@ -1,12 +1,12 @@
-import Image from 'next/image'
+import Image from "next/image"
 
-import { getRanking } from '../actions'
+import { getRanking } from "../actions"
 
 export const MyRanking = async () => {
   const { data: rankings, error } = await getRanking()
 
   if (error) {
-    alert('랭킹을 불러오는 중 오류가 발생했습니다.')
+    alert("랭킹을 불러오는 중 오류가 발생했습니다.")
   }
 
   return (
@@ -42,7 +42,7 @@ export const MyRanking = async () => {
               <p className="font-bold text-[#333]">{user.username}</p>
               <p className="text-sm text-gray-600">
                 {user.gacha_count}
-                {' '}
+                {" "}
                 회
               </p>
             </div>

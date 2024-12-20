@@ -1,7 +1,10 @@
-import { Footer } from '@/components/Footer'
-import { Header } from '@/components/layout/header/Header'
-import { ReviewsGrid } from '@/features/review/components/ReviewsGrid'
-import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { Suspense } from "react"
+
+import { Footer } from "@/components/Footer"
+import { Header } from "@/components/layout/header/Header"
+import { Skeleton } from "@/components/ui/skeleton"
+import { ReviewsGrid } from "@/features/review/components/ReviewsGrid"
+import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 
 // https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration
 export const revalidate = 60
@@ -9,7 +12,7 @@ export const dynamicParams = true
 
 export async function generateStaticParams() {
   const supabase = getSupabaseBrowserClient()
-  const { data: posts } = await supabase.from('posts').select('id')
+  const { data: posts } = await supabase.from("posts").select("id")
 
   return (posts ?? []).map(post => ({
     id: String(post.id),
@@ -33,11 +36,45 @@ export default async function ReviewsPage({ params }: { params: Params }) {
           </h1>
           <div className="flex items-center text-sm text-gray-500">
             최근 업데이트:&nbsp;
-            <span className="text-xs font-medium text-gray-700">{new Intl.DateTimeFormat('ko-KR', { dateStyle: 'short', timeStyle: 'short' }).format()}</span>
+            <span className="text-xs font-medium text-gray-700">{new Intl.DateTimeFormat("ko-KR", { dateStyle: "short", timeStyle: "short" }).format()}</span>
           </div>
         </div>
         <div className="mb-28 w-full">
-          <ReviewsGrid postId={id} />
+          <Suspense fallback={(
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="flex flex-col space-y-3">
+                <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[200px]" />
+                </div>
+              </div>
+              <div className="flex flex-col space-y-3">
+                <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[200px]" />
+                </div>
+              </div>
+              <div className="flex flex-col space-y-3">
+                <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[200px]" />
+                </div>
+              </div>
+              <div className="flex flex-col space-y-3">
+                <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[200px]" />
+                </div>
+              </div>
+            </div>
+          )}
+          >
+            <ReviewsGrid postId={id} />
+          </Suspense>
         </div>
       </div>
       <Footer />

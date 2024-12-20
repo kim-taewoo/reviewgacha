@@ -1,34 +1,34 @@
-'use client'
+"use client"
 
-import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import Image from "next/image"
+import { useState, useEffect } from "react"
 
-import { type Rewards } from './MyGacha'
+import { type Rewards } from "./MyGacha"
 
 interface Props {
   rewardsList: Rewards
   myRewardsIds: (number | null)[]
 }
 
-const TAB_BUTTON: { value: 'all' | 'special' | 'fairy' | 'normal', text: string }[] = [
-  { value: 'all', text: '전체' },
-  { value: 'special', text: '스페셜' },
-  { value: 'fairy', text: '히든' },
-  { value: 'normal', text: '기본' },
+const TAB_BUTTON: { value: "all" | "special" | "fairy" | "normal", text: string }[] = [
+  { value: "all", text: "전체" },
+  { value: "special", text: "스페셜" },
+  { value: "fairy", text: "히든" },
+  { value: "normal", text: "기본" },
 ]
 
 export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
-  const [activeTab, setActiveTab] = useState<'all' | 'special' | 'fairy' | 'normal'>('all')
+  const [activeTab, setActiveTab] = useState<"all" | "special" | "fairy" | "normal">("all")
   const [selectedReward, setSelectedReward] = useState<typeof rewardsList.special[0] | null>(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   const getRewardsList = () => {
     switch (activeTab) {
-      case 'special':
+      case "special":
         return rewardsList.special
-      case 'fairy':
+      case "fairy":
         return rewardsList.fairy
-      case 'normal':
+      case "normal":
         return rewardsList.normal
       default:
         return [...rewardsList.special, ...rewardsList.fairy, ...rewardsList.normal]
@@ -39,25 +39,25 @@ export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
     if (myRewardsIds.includes(reward.reward_id)) {
       setSelectedReward(reward)
       setIsModalVisible(true)
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden"
     }
   }
 
   const handleCloseModal = () => {
     setIsModalVisible(false)
     setSelectedReward(null)
-    document.body.style.overflow = 'auto'
+    document.body.style.overflow = "auto"
   }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isModalVisible) {
+      if (e.key === "Escape" && isModalVisible) {
         handleCloseModal()
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
   }, [isModalVisible])
 
   return (
@@ -68,8 +68,8 @@ export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
             key={tab.value}
             className={`rounded-full border border-solid px-4 py-1 text-sm ${
               activeTab === tab.value
-                ? 'bg-[#ff9e49] text-white'
-                : 'border-[#ddd] text-[#8a8a8a]'
+                ? "bg-[#ff9e49] text-white"
+                : "border-[#ddd] text-[#8a8a8a]"
             }`}
             onClick={() => setActiveTab(tab.value)}
           >
@@ -80,14 +80,14 @@ export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
 
       <div
         className="grid gap-x-4 gap-y-6"
-        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(108px, 1fr))' }}
+        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(108px, 1fr))" }}
       >
         {getRewardsList().map((reward) => {
           const isActive = myRewardsIds.includes(reward.reward_id)
           return (
             <div
               key={reward.reward_id}
-              className={`overflow-hidden ${isActive ? 'cursor-pointer' : 'cursor-default'} justify-self-center`}
+              className={`overflow-hidden ${isActive ? "cursor-pointer" : "cursor-default"} justify-self-center`}
               onClick={() => handleRewardClick(reward)}
             >
               <Image
@@ -96,8 +96,8 @@ export const RewardsList = ({ rewardsList, myRewardsIds }: Props) => {
                 width={0}
                 height={0}
                 sizes="100%"
-                style={{ width: '100%', height: 'auto' }}
-                className={`${isActive ? 'transition-transform duration-300 ease-in-out hover:scale-105' : 'grayscale'} rounded-md`}
+                style={{ width: "100%", height: "auto" }}
+                className={`${isActive ? "transition-transform duration-300 ease-in-out hover:scale-105" : "grayscale"} rounded-md`}
               />
             </div>
           )

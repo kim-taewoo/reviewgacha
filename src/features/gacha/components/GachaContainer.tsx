@@ -1,17 +1,17 @@
-'use client'
-import Image from 'next/image'
-import { useRef, useState } from 'react'
-import Confetti from 'react-confetti'
-import { useWindowSize } from 'usehooks-ts'
+"use client"
+import Image from "next/image"
+import { useRef, useState } from "react"
+import Confetti from "react-confetti"
+import { useWindowSize } from "usehooks-ts"
 
-import { revalidatePage } from '@/actions'
-import { cn } from '@/lib/utils'
+import { revalidatePage } from "@/actions"
+import { cn } from "@/lib/utils"
 
-import { Gacha } from '../types'
-import { getGachaResult, updateRewardId, type GachaResult } from '../utils/getGachaResult'
+import { Gacha } from "../types"
+import { getGachaResult, updateRewardId, type GachaResult } from "../utils/getGachaResult"
 
-import { GachaResultModal } from './GachaResultModal'
-import { NoGachaLeftModal } from './NoGachaLeftModal'
+import { GachaResultModal } from "./GachaResultModal"
+import { NoGachaLeftModal } from "./NoGachaLeftModal"
 
 export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[], postId: string }) => {
   const [result, setResult] = useState<string | null>(null)
@@ -78,9 +78,9 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
       <div className="flex min-h-screen flex-col items-center justify-center">
         <p className="mb-[72px] text-2xl font-bold text-[#1F2024]">
           한 장의 카드를
-          {' '}
+          {" "}
           <br />
-          {' '}
+          {" "}
           선택해 주세요
         </p>
 
@@ -90,9 +90,9 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
             <div key={index} onClick={() => onClickGacha(index)}>
               <div
                 className={cn(
-                  'relative h-44 w-32 transition-transform duration-700 transform-style-preserve-3d',
-                  flippedIndex === index && 'rotate-y-180',
-                  isLoading && 'pointer-events-none opacity-50'
+                  "relative h-44 w-32 transition-transform duration-700 transform-style-preserve-3d",
+                  flippedIndex === index && "rotate-y-180",
+                  isLoading && "pointer-events-none opacity-50"
                 )}
               >
                 {/* 카드 뒷면 */}
@@ -102,7 +102,7 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
 
                 {/* 카드 앞면 */}
                 <div className="absolute flex cursor-pointer items-center justify-center shadow-md backface-hidden rotate-y-180">
-                  <Image src={gachaResult?.image_url || '/Card 1.png'} alt="card image" width={158} height={195} />
+                  <Image src={gachaResult?.image_url || "/Card 1.png"} alt="card image" width={158} height={195} />
                 </div>
               </div>
             </div>
@@ -128,4 +128,4 @@ export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[]
   )
 }
 
-const cards = ['카드1', '카드2', '카드3', '카드4']
+const cards = ["카드1", "카드2", "카드3", "카드4"]

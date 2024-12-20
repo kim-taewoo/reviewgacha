@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
-import { useMediaQuery } from 'usehooks-ts'
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
+import { useMediaQuery } from "usehooks-ts"
 
 import {
   Drawer,
@@ -10,7 +10,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer'
+} from "@/components/ui/drawer"
 
 import {
   Dialog,
@@ -19,7 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './ui/dialog'
+} from "./ui/dialog"
 
 interface Props {
   triggerButton?: React.ReactNode
@@ -35,7 +35,7 @@ export function DialogOrBottomDrawerWrapper({
   title,
   description,
 }: Props) {
-  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const isDesktop = useMediaQuery("(min-width: 768px)")
 
   if (isDesktop) {
     return (

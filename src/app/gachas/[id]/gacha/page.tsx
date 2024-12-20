@@ -1,13 +1,13 @@
-import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
-import { Button } from '@/components/ui/button'
-import { GachaContainer } from '@/features/gacha/components/GachaContainer'
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { Button } from "@/components/ui/button"
+import { GachaContainer } from "@/features/gacha/components/GachaContainer"
+import { getSupabaseServerClient } from "@/lib/supabase/server"
 
 const GachaPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const supabase = await getSupabaseServerClient()
-  const { data: unusedGachas, error } = await supabase.from('gachas').select().match({
+  const { data: unusedGachas, error } = await supabase.from("gachas").select().match({
     is_used: false,
   })
 

@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import { Suspense } from 'react'
+import { Suspense } from "react"
 
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
-import RegisterForm from './RegisterForm'
+import RegisterForm from "./RegisterForm"
 
 export default function RegisterPage() {
   return (

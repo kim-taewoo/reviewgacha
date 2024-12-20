@@ -1,19 +1,19 @@
-'use client'
-import Image from 'next/image'
-import { useParams, useRouter } from 'next/navigation'
-import { Dispatch, SetStateAction } from 'react'
+"use client"
+import Image from "next/image"
+import { useParams, useRouter } from "next/navigation"
+import { Dispatch, SetStateAction } from "react"
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { DEFAULT_URL } from '@/constatns'
+} from "@/components/ui/dialog"
+import { DEFAULT_URL } from "@/constatns"
 
-import { Gacha } from '../types'
+import { Gacha } from "../types"
 
 interface Props {
   result: string | null

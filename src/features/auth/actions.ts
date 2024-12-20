@@ -1,14 +1,14 @@
-'use server'
+"use server"
 
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { getSupabaseServerClient } from "@/lib/supabase/server"
 
 export const updateUsernameAction = async (
   previousState: unknown,
   formData: FormData
 ) => {
-  const username = formData.get('username') as string
+  const username = formData.get("username") as string
   if (!username.trim()) {
-    return { error: '닉네임을 입력해주세요', data: null }
+    return { error: "닉네임을 입력해주세요", data: null }
   }
   const supabase = await getSupabaseServerClient()
 
