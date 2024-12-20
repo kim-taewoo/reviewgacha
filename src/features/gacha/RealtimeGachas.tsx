@@ -1,11 +1,11 @@
-'use client'
+"use client"
 
-import { RealtimePostgresChangesPayload } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
+import { RealtimePostgresChangesPayload } from "@supabase/supabase-js"
+import { useEffect, useState } from "react"
 
-import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 
-import { Gacha } from './types'
+import { Gacha } from "./types"
 
 interface Props {
   initialState: Gacha[]
@@ -18,18 +18,18 @@ export const RealtimeGachas = ({ initialState }: Props) => {
   useEffect(() => {
     const listener = (payload: RealtimePostgresChangesPayload<Gacha>) => {
       const eventType = payload.eventType
-      if (eventType === 'INSERT') {
+      if (eventType === "INSERT") {
         setGachas(prev => [...prev, payload.new])
       }
     }
     const subscription = supabase
-      .channel('my-channel')
+      .channel("my-channel")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'gachas',
+          event: "*",
+          schema: "public",
+          table: "gachas",
           // filter: ``
         },
         listener,

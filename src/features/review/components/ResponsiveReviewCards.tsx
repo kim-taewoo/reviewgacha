@@ -1,19 +1,19 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import { useMediaQuery } from 'usehooks-ts'
+import { useEffect, useState } from "react"
+import { useMediaQuery } from "usehooks-ts"
 
-import { Review } from '../types'
+import { Review } from "../types"
 
-import { ReviewCard } from './ReviewCard'
+import { ReviewCard } from "./ReviewCard"
 
 interface Props {
   reviews: Review[]
 }
 
 export const ResponsiveReviewCards = ({ reviews }: Props) => {
-  const isMd = useMediaQuery('(min-width: 768px)')
-  const isLg = useMediaQuery('(min-width: 1024px)')
+  const isMd = useMediaQuery("(min-width: 768px)")
+  const isLg = useMediaQuery("(min-width: 1024px)")
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {

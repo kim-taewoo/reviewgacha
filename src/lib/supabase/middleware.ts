@@ -1,5 +1,5 @@
-import { createServerClient } from '@supabase/ssr'
-import { type NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from "@supabase/ssr"
+import { type NextRequest, NextResponse } from "next/server"
 
 export const getSupabaseReqResClient = (request: NextRequest) => {
   // let response = NextResponse.next({ request: request }) 로 안 하는 이유는, 이렇게 하면 response 객체를 변경할 수 없기 때문이다.

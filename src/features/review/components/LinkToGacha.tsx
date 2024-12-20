@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import { Ticket } from 'lucide-react'
-import Link from 'next/link'
-import { toast } from 'sonner'
+import { Ticket } from "lucide-react"
+import Link from "next/link"
+import { toast } from "sonner"
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
 
 interface Props {
   gachasLength: number
@@ -17,9 +17,9 @@ export const LinkToGacha = ({ gachasLength, postId }: Props) => {
       <Link href={`/gachas/${postId}/gacha`}>
         <Button>
           <Ticket className="-rotate-45" />
-          {' '}
+          {" "}
           가챠 뽑기
-          {' '}
+          {" "}
           +
           {gachasLength}
         </Button>
@@ -29,13 +29,13 @@ export const LinkToGacha = ({ gachasLength, postId }: Props) => {
 
   return (
     <Button onClick={() => {
-      toast.error('가지고 있는 가챠권이 없습니다! 리뷰를 작성하거나 좋아요를 눌러 가챠권을 얻어보세요!')
+      toast.error("가지고 있는 가챠권이 없습니다! 리뷰를 작성하거나 좋아요를 눌러 가챠권을 얻어보세요!")
     }}
     >
       <Ticket className="-rotate-45" />
-      {' '}
+      {" "}
       가챠 뽑기
-      {' '}
+      {" "}
       +0
     </Button>
   )

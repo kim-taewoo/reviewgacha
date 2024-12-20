@@ -1,4 +1,4 @@
-import { LoadingCircle } from '@/components/LoadingCircle'
+import { LoadingCircle } from "@/components/LoadingCircle"
 
 export default function Loading() {
   return (

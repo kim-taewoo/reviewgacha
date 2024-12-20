@@ -1,23 +1,23 @@
-import './globals.css'
-import { Toaster } from 'sonner'
+import "./globals.css"
+import { Toaster } from "sonner"
 
-import { DEFAULT_URL } from '@/constatns'
+import { DEFAULT_URL } from "@/constatns"
 
-import { pretendard } from './fonts'
+import { pretendard } from "./fonts"
 
-import type { Metadata } from 'next'
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   metadataBase: new URL(DEFAULT_URL),
-  title: 'REVIEW GACHA',
-  description: '리뷰가챠로 리뷰를 더 즐겁게!',
+  title: "REVIEW GACHA",
+  description: "리뷰가챠로 리뷰를 더 즐겁게!",
   openGraph: {
-    type: 'website',
-    locale: 'ko_KR',
-    url: 'https://reviewgacha.com',
-    siteName: 'REVIEW GACHA',
-    title: 'REVIEW GACHA',
-    description: '리뷰가챠로 리뷰를 더 즐겁게!',
+    type: "website",
+    locale: "ko_KR",
+    url: "https://reviewgacha.com",
+    siteName: "REVIEW GACHA",
+    title: "REVIEW GACHA",
+    description: "리뷰가챠로 리뷰를 더 즐겁게!",
   },
 }
 

@@ -1,4 +1,4 @@
-import { ReviewForm } from '@/features/review/components/ReviewForm'
+import { ReviewForm } from "@/features/review/components/ReviewForm"
 
 type Params = Promise<{ id: string }>
 

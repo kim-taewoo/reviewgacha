@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils"
 
 interface Props {
   className?: string
@@ -7,7 +7,7 @@ interface Props {
 export function LoadingCircle({ className }: Props) {
   return (
     <svg
-      className={cn('animate-spin -ml-1 mr-3 h-5 w-5 text-white', className)}
+      className={cn("animate-spin -ml-1 mr-3 h-5 w-5 text-white", className)}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

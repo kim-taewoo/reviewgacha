@@ -1,14 +1,14 @@
-import { Footer } from '@/components/Footer'
-import { Header } from '@/components/layout/header/Header'
+import { Footer } from "@/components/Footer"
+import { Header } from "@/components/layout/header/Header"
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@/components/ui/tabs'
-import { MyGacha } from '@/features/ranking/components/MyGacha'
-import { MyRanking } from '@/features/ranking/components/MyRanking'
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+} from "@/components/ui/tabs"
+import { MyGacha } from "@/features/ranking/components/MyGacha"
+import { MyRanking } from "@/features/ranking/components/MyRanking"
+import { getSupabaseServerClient } from "@/lib/supabase/server"
 
 type Params = Promise<{ id: string }>
 
@@ -21,7 +21,7 @@ const RankingPage = async ({ params }: { params: Params }) => {
   const user = session?.user
 
   const { data: notUsedGachas, error } = await supabase
-    .from('gachas')
+    .from("gachas")
     .select()
     .match({
       post_id: id,

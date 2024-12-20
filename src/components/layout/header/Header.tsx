@@ -1,9 +1,9 @@
-import Link from 'next/link'
-import { Suspense } from 'react'
+import Link from "next/link"
+import { Suspense } from "react"
 
-import { LoadingCircle } from '@/components/LoadingCircle'
+import { LoadingCircle } from "@/components/LoadingCircle"
 
-import { GachaTicketsCounter } from './GachaTicketsCounter'
+import { GachaTicketsCounter } from "./GachaTicketsCounter"
 
 export function Header({ postId }: { postId: string }) {
   return (
