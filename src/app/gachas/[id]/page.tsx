@@ -1,3 +1,6 @@
+"use cache"
+
+import { unstable_cacheTag as cacheTag, unstable_cacheLife as cacheLife } from "next/cache"
 import { Suspense } from "react"
 
 import { Footer } from "@/components/Footer"
@@ -7,8 +10,8 @@ import { ReviewsGrid } from "@/features/review/components/ReviewsGrid"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 
 // https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration
-export const revalidate = 60
-export const dynamicParams = true
+// export const revalidate = 60
+// export const dynamicParams = true
 
 export async function generateStaticParams() {
   const supabase = getSupabaseBrowserClient()
@@ -22,11 +25,14 @@ export async function generateStaticParams() {
 type Params = Promise<{ id: string }>
 
 export default async function ReviewsPage({ params }: { params: Params }) {
-  const id = (await params).id
+  cacheLife("minutes")
+  cacheTag("reviews")
 
   return (
     <>
-      <Header postId={id} />
+      <Suspense fallback={null}>
+        <Header pageParams={params} />
+      </Suspense>
       <div className="mb-14 flex w-full max-w-4xl flex-col gap-6 px-5 py-6">
         <div className="flex items-end justify-between">
           <h1 className="text-xl font-semibold">
@@ -73,11 +79,13 @@ export default async function ReviewsPage({ params }: { params: Params }) {
             </div>
           )}
           >
-            <ReviewsGrid postId={id} />
+            <ReviewsGrid pageParams={params} />
           </Suspense>
         </div>
       </div>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer pageParams={params} />
+      </Suspense>
     </>
   )
 }

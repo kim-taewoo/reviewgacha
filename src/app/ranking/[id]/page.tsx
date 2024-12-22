@@ -49,7 +49,7 @@ const RankingPage = async ({ params }: { params: Params }) => {
           </TabsContent>
         </Tabs>
       </div>
-      <Footer />
+      <Footer postIdPromise={id} />
     </>
   )
 }

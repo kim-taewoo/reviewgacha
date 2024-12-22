@@ -1,26 +1,31 @@
+"use client"
+
 import { Ticket } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
-import { getSupabaseServerClient } from "@/lib/supabase/server"
+import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 
-export async function GachaTicketsCounter({ postId }: { postId: string }) {
-  const supabase = await getSupabaseServerClient()
+export function GachaTicketsCounter({ postId }: { postId: string }) {
+  const supabase = getSupabaseBrowserClient()
 
-  const { data: notUsedGachas } = await supabase.from("gachas").select().match({
-    post_id: postId,
-    is_used: false,
-  })
+  const [ticketCount, setTicketCount] = useState(0)
 
-  const ticketCount = notUsedGachas?.length ?? 0
+  useEffect(() => {
+    async function fetchGachas() {
+      const { data: notUsedGachas } = await supabase.from("gachas").select().match({
+        post_id: postId,
+        is_used: false,
+      })
 
-  // useEffect(() => {
-  //   if (ticketCount > 0) {
-  //     setAnimate(true)
-  //     const timer = setTimeout(() => setAnimate(false), 2500) // Animation duration
-  //     return () => clearTimeout(timer)
-  //   }
-  // }, [ticketCount])
+      const ticketCount = notUsedGachas?.length ?? 0
+      setTicketCount(ticketCount)
+      return ticketCount
+    }
+
+    fetchGachas()
+  }, [postId, supabase])
 
   return (
     <Link href={`/gachas/${postId}/gacha`}>

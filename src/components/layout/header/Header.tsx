@@ -5,7 +5,8 @@ import { LoadingCircle } from "@/components/LoadingCircle"
 
 import { GachaTicketsCounter } from "./GachaTicketsCounter"
 
-export function Header({ postId }: { postId: string }) {
+export async function Header({ pageParams }: { pageParams: Promise<{ id: string }> }) {
+  const postId = (await pageParams).id
   return (
     <header className="sticky top-0 z-50 w-full bg-white">
       <div className="flex items-center justify-between border-b p-4">
