@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image"
+import { useParams } from "next/navigation"
 import { useRef, useState } from "react"
 import Confetti from "react-confetti"
 import { useWindowSize } from "usehooks-ts"
@@ -13,7 +14,9 @@ import { getGachaResult, updateRewardId, type GachaResult } from "../utils/getGa
 import { GachaResultModal } from "./GachaResultModal"
 import { NoGachaLeftModal } from "./NoGachaLeftModal"
 
-export const GachaContainer = ({ unusedGachas, postId }: { unusedGachas: Gacha[], postId: string }) => {
+export const GachaContainer = ({ unusedGachas }: { unusedGachas: Gacha[] }) => {
+  const params = useParams()
+  const postId = params.id
   const [result, setResult] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)

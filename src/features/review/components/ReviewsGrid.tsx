@@ -4,9 +4,8 @@ import { Review } from "../types"
 
 import { ReviewCard } from "./ReviewCard"
 
-export async function ReviewsGrid({ pageParams }: { pageParams: Promise<{ id: string }> }) {
+export async function ReviewsGrid({ postId }: { postId: string }) {
   const supabase = getSupabaseBrowserClient()
-  const postId = (await pageParams).id
 
   const { data: reviewsData } = await supabase.from("reviews").select().match({ post_id: postId }).order("created_at", { ascending: false })
 

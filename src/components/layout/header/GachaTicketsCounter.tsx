@@ -2,12 +2,15 @@
 
 import { Ticket } from "lucide-react"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 
-export function GachaTicketsCounter({ postId }: { postId: string }) {
+export function GachaTicketsCounter() {
+  const params = useParams()
+  const postId = params.id
   const supabase = getSupabaseBrowserClient()
 
   const [ticketCount, setTicketCount] = useState(0)

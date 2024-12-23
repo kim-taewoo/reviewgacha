@@ -3,7 +3,7 @@
 import { ArrowLeft, Star, X } from "lucide-react"
 // import Image from 'next/image'
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import React, { useState, useRef } from "react"
 import { toast } from "sonner"
 
@@ -13,7 +13,9 @@ import { Button } from "@/components/ui/button"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import { getRandomHexString } from "@/utils"
 
-export function ReviewForm({ postId }: { postId: string }) {
+export function ReviewForm() {
+  const params = useParams()
+  const postId = params.id
   const supabase = getSupabaseBrowserClient()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)

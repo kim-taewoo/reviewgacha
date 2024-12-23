@@ -5,8 +5,7 @@ import { LoadingCircle } from "@/components/LoadingCircle"
 
 import { GachaTicketsCounter } from "./GachaTicketsCounter"
 
-export async function Header({ pageParams }: { pageParams: Promise<{ id: string }> }) {
-  const postId = (await pageParams).id
+export async function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white">
       <div className="flex items-center justify-between border-b p-4">
@@ -14,7 +13,7 @@ export async function Header({ pageParams }: { pageParams: Promise<{ id: string 
           리뷰가챠!
         </Link>
         <Suspense fallback={<LoadingCircle />}>
-          <GachaTicketsCounter postId={postId} />
+          <GachaTicketsCounter />
         </Suspense>
       </div>
     </header>
