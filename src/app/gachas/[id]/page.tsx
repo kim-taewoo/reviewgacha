@@ -1,5 +1,3 @@
-"use cache"
-
 // import { unstable_cacheTag as cacheTag, unstable_cacheLife as cacheLife } from "next/cache"
 import { Suspense } from "react"
 
@@ -12,13 +10,12 @@ import { getSupabasePublicClient } from "@/lib/supabase/public"
 
 // dynamicIO 도입 이전 방식이라 주석처리 해놓음
 // https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration
-// export const revalidate = 60
-// export const dynamicParams = true
+export const revalidate = 60
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const supabase = getSupabasePublicClient()
   const { data: posts, error } = await supabase.from("posts").select("id")
-  console.log(posts, error, "check")
   return (posts ?? []).map(post => ({
     id: String(post.id),
   }))
@@ -30,9 +27,9 @@ async function ReviewsPage({ params }: { params: Params }) {
   const postId = (await params).id
   return (
     <>
-      {/* <Suspense fallback={null}>
+      <Suspense fallback={null}>
         <Header />
-      </Suspense> */}
+      </Suspense>
       <div className="mb-14 flex w-full max-w-4xl flex-col gap-6 px-5 py-6">
         <div className="flex items-end justify-between">
           <h1 className="text-xl font-semibold">
@@ -65,9 +62,9 @@ async function ReviewsPage({ params }: { params: Params }) {
           </Suspense>
         </div>
       </div>
-      {/* <Suspense fallback={null}>
+      <Suspense fallback={null}>
         <Footer pageParams={params} />
-      </Suspense> */}
+      </Suspense>
     </>
   )
 }
