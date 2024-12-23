@@ -39,7 +39,7 @@ async function ReviewsPage({ params }: { params: Params }) {
           </h1>
           <div className="flex items-center text-sm text-gray-500">
             최근 업데이트:&nbsp;
-            <span className="text-xs font-medium text-gray-700">{new Intl.DateTimeFormat("ko-KR", { dateStyle: "short", timeStyle: "short" }).format()}</span>
+            <span className="text-xs font-medium text-gray-700">{new Intl.DateTimeFormat("ko-KR", { dateStyle: "short", timeStyle: "short", timeZone: "Asia/Seoul" }).format(new Date())}</span>
           </div>
         </div>
         <div className="mb-28 w-full">

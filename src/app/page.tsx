@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="relative h-screen w-full overflow-hidden bg-[#DEE9FE]">
       {/* 이미지 배경 */}
-      <div className="absolute inset-0 mx-auto max-w-[375px] bg-cover bg-center bg-no-repeat px-3 pb-12 pt-7" style={{ backgroundImage: "url('/main.png')" }}>
+      <div className="absolute inset-0 mx-auto max-w-[375px] bg-cover bg-center bg-no-repeat px-3 pb-24 pt-7" style={{ backgroundImage: "url('/main.png')" }}>
         {/* 텍스트와 버튼 */}
         <div className="relative z-10 flex h-full flex-col items-center justify-between">
           {/* 텍스트 영역 */}
